@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ซ้อมสัมภาษณ์ · เรื่องราวและจุดประสงค์ของแอป</title>
+<meta name="description" content="ฝึกตอบคำถามสัมภาษณ์ 283 ข้อ ใน 10 หมวด ฟรี ใช้ได้บนมือถือ พิมพ์ตอบแล้วดูคะแนนและคำแนะนำได้ทันที">
+<meta name="theme-color" content="#4B2E83">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="fonts/noto-sans-thai-thai-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Noto Sans Thai";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/noto-sans-thai-thai-400-normal.woff2) format("woff2");unicode-range:U+02D7,U+0303,U+0331,U+0E01-0E5B,U+200C-200D,U+25CC}
+@font-face{font-family:"Noto Sans Thai";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/noto-sans-thai-latin-400-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Noto Sans Thai";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/noto-sans-thai-thai-600-normal.woff2) format("woff2");unicode-range:U+02D7,U+0303,U+0331,U+0E01-0E5B,U+200C-200D,U+25CC}
+@font-face{font-family:"Noto Sans Thai";font-style:normal;font-weight:600;font-display:swap;src:url(fonts/noto-sans-thai-latin-600-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Noto Sans Thai";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/noto-sans-thai-thai-700-normal.woff2) format("woff2");unicode-range:U+02D7,U+0303,U+0331,U+0E01-0E5B,U+200C-200D,U+25CC}
+@font-face{font-family:"Noto Sans Thai";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/noto-sans-thai-latin-700-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Prompt";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/prompt-thai-700-normal.woff2) format("woff2");unicode-range:U+02D7,U+0303,U+0331,U+0E01-0E5B,U+200C-200D,U+25CC}
+@font-face{font-family:"Prompt";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/prompt-latin-700-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+:root{
+  --bg:#F3EFFC;--card:#fff;--ink:#2B1F5C;--mute:#5B5380;--line:#E0D7F7;
+  --brand:#4B2E83;--brand-dk:#2F1B5C;--brand-ink:#fff;--acc:#FFD43B;--acc-ink:#3A2A00;
+  --ok:#14663F;--ok-bg:#E6F5EC;--warn:#7A5200;--warn-bg:#FFF3BF;--chip:#F1ECFD;
+  --grad:linear-gradient(180deg,#FFF3BF 0,#EDE6FB 360px,#F8F5FF 100%);
+  --hero-bg:linear-gradient(135deg,#4B2E83 0%,#6A45B5 100%);--hero-ink:#fff;--hero-mute:#DCD2F5;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#17132B;--card:#221C3F;--ink:#F1EEFB;--mute:#B7B0D6;--line:#3A3160;--brand:#B9A3F5;--brand-dk:#6F58B8;--brand-ink:#1A1235;--chip:#2D2650;--ok:#6FD6A3;--ok-bg:#16301F;--warn:#F1C36B;--warn-bg:#352A10;--hero-bg:linear-gradient(135deg,#3A2C72 0%,#2A2150 100%);--hero-ink:#F1EEFB;--hero-mute:#C8BFEA;--grad:linear-gradient(180deg,#2A2150 0,#1D1838 360px,#17132B 100%);color-scheme:dark}
+}
+:root[data-theme="dark"]{--bg:#17132B;--card:#221C3F;--ink:#F1EEFB;--mute:#B7B0D6;--line:#3A3160;--brand:#B9A3F5;--brand-dk:#6F58B8;--brand-ink:#1A1235;--chip:#2D2650;--ok:#6FD6A3;--ok-bg:#16301F;--warn:#F1C36B;--warn-bg:#352A10;--hero-bg:linear-gradient(135deg,#3A2C72 0%,#2A2150 100%);--hero-ink:#F1EEFB;--hero-mute:#C8BFEA;--grad:linear-gradient(180deg,#2A2150 0,#1D1838 360px,#17132B 100%);color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--grad) no-repeat var(--bg);min-height:100vh;color:var(--ink);font:16px/1.75 "Noto Sans Thai",system-ui,sans-serif;overflow-wrap:anywhere}
+.wrap{max-width:640px;margin:0 auto;padding:16px}
+h1,h2,h3,.brandname{font-family:"Prompt","Noto Sans Thai",sans-serif;line-height:1.3}
+h1{font-size:1.9rem;margin:.2em 0 .3em}
+h2{font-size:1.25rem;margin:0 0 .5em}
+h3{font-size:1.05rem;margin:.1em 0 .2em}
+p{margin:.4em 0}
+a{color:var(--brand)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 0 4px}
+.brandname{font-weight:700;color:var(--ink);text-decoration:none}
+.top a.small{font-size:.92rem}
+.hero{background:var(--hero-bg);color:var(--hero-ink);border-radius:26px;padding:24px 22px;margin:8px 0 14px;box-shadow:0 8px 22px rgba(75,46,131,.28);position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-40px;top:-50px;width:160px;height:160px;border-radius:50%;background:rgba(255,212,59,.16)}
+.hero>*{position:relative;z-index:1}
+.hero .kicker{color:var(--hero-mute);font-size:.92rem;margin:0}
+.hero .lead{color:var(--hero-mute);margin:.4em 0 0}
+.badge{display:inline-block;background:var(--acc);color:var(--acc-ink);font-weight:700;font-size:.9rem;border-radius:999px;padding:3px 14px;margin-top:8px}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 20px;border-radius:14px;font:600 1rem "Noto Sans Thai",system-ui,sans-serif;text-decoration:none;border:2px solid transparent;cursor:pointer}
+.btn.go{background:var(--acc);color:var(--acc-ink);box-shadow:0 4px 0 rgba(0,0,0,.28)}
+.btn.go:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,.28)}
+.btn.ghost{background:transparent;color:var(--hero-ink);border-color:rgba(255,255,255,.55)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px;margin:0 0 14px;box-shadow:0 2px 12px rgba(75,46,131,.08)}
+.grid{display:grid;gap:12px;grid-template-columns:1fr}
+@media (min-width:560px){.grid{grid-template-columns:1fr 1fr}}
+.item{background:var(--chip);border-radius:16px;padding:14px}
+.num{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--brand);color:var(--brand-ink);font-family:"Prompt",sans-serif;font-weight:700;margin-bottom:6px}
+.mute{color:var(--mute)}
+.ok{color:var(--ok)}
+ul{padding-left:1.2em;margin:.4em 0}
+li{margin:.3em 0}
+.note{background:var(--warn-bg);color:var(--warn);border-radius:14px;padding:12px 14px;font-size:.95rem;margin:10px 0 0}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0}
+.steps li{counter-increment:s;position:relative;padding:0 0 0 44px;margin:12px 0}
+.steps li::before{content:counter(s);position:absolute;left:0;top:0;width:32px;height:32px;border-radius:50%;background:var(--brand);color:var(--brand-ink);font-family:"Prompt",sans-serif;font-weight:700;display:flex;align-items:center;justify-content:center}
+footer{text-align:center;color:var(--mute);font-size:.9rem;margin:22px 0 10px}
+footer a{color:var(--brand)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+@media (max-width:380px){ h1{font-size:1.6rem} .hero{padding:20px 16px} .card{padding:16px} }
+@media (prefers-reduced-motion:no-preference){ .hero,.card{animation:rise .45s ease both} }
+@keyframes rise{from{opacity:0;transform:translateY(8px)}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="top">
+    <a class="brandname" href="landing.html" aria-label="หน้าแรกของแอปซ้อมสัมภาษณ์">ซ้อมสัมภาษณ์</a>
+    <a class="small" href="index.html">เข้าสู่ระบบ</a>
+  </header>
+
+  <section class="hero" aria-labelledby="h-hero">
+    <p class="kicker">ซ้อมพูดตอบก่อนถึงวันจริง</p>
+    <h1 id="h-hero">ฝึกตอบคำถามสัมภาษณ์ได้ทุกที่ ฟรี</h1>
+    <p class="lead">มีคำถาม 283 ข้อ ใน 10 หมวด พิมพ์คำตอบบนมือถือหรือคอมก็ได้ แล้วดูคะแนนและคำแนะนำได้ทันที</p>
+    <span class="badge">ไม่ต้องสมัครจ่ายเงิน</span>
+    <div class="cta">
+      <a class="btn go" href="index.html">เริ่มฝึกเลย</a>
+      <a class="btn ghost" href="index.html">สมัครสมาชิก</a>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="h-story">
+    <h2 id="h-story">ความเป็นมา</h2>
+    <p>หลายคนมีคำถามสัมภาษณ์ในใจ แต่ไม่มีที่ให้ได้ลองพูดหรือพิมพ์ตอบออกมาจริงจัง ไม่รู้ว่าคำตอบของตัวเองยาวพอ ตรงประเด็นพอ หรือมีตัวอย่างพอหรือยัง</p>
+    <p>ซ้อมสัมภาษณ์จึงถูกทำขึ้นเป็นที่ซ้อมสำหรับคนทั่วไป ทุกคนสมัครเข้าใช้ได้โดยไม่มีค่าใช้จ่าย และไม่ต้องพึ่ง AI แบบเสียเงิน ระบบตรวจคำตอบด้วยกติกาที่เห็นได้ชัด ให้คุณประเมินตัวเอง และคัดลอกคำสั่ง (prompt) ไปให้ AI ที่คุณใช้อยู่ช่วยดูต่อได้เอง</p>
+    <p class="mute" style="font-size:.92rem">หมายเหตุ: ข้อความส่วนนี้เป็นร่างจากข้อมูลของแอป เรื่องราวส่วนตัวของผู้พัฒนายังไม่ได้ใส่ ตรวจและแก้ให้ตรงความจริงก่อนเผยแพร่</p>
+  </section>
+
+  <section class="card" aria-labelledby="h-goal">
+    <h2 id="h-goal">จุดประสงค์ของแอป</h2>
+    <div class="grid">
+      <div class="item"><span class="num" aria-hidden="true">1</span><h3>ซ้อมให้เป็นนิสัย</h3><p class="mute">สุ่มคำถามหรือเลือกเองตามหมวดและระดับ แล้วพิมพ์ตอบเหมือนกำลังพูดกับกรรมการ</p></div>
+      <div class="item"><span class="num" aria-hidden="true">2</span><h3>รู้ว่าต้องปรับตรงไหน</h3><p class="mute">ระบบดูความยาว การใช้คำสำคัญ และโครงสร้างคำตอบ พร้อมให้คุณประเมินตนเองอีกชั้น</p></div>
+      <div class="item"><span class="num" aria-hidden="true">3</span><h3>เห็นความก้าวหน้า</h3><p class="mute">หน้า “ภาพรวม” แสดงสตรีคการซ้อม กราฟคะแนน และสิ่งที่ควรทำต่อ</p></div>
+      <div class="item"><span class="num" aria-hidden="true">4</span><h3>ใช้ AI ที่คุณมีอยู่แล้ว</h3><p class="mute">กดคัดลอก prompt แล้วนำไปถาม AI ที่คุณใช้อยู่ ระบบไม่เรียก AI เอง จึงไม่มีค่าใช้จ่ายฝั่งระบบ</p></div>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="h-how">
+    <h2 id="h-how">เริ่มใช้งานอย่างไร</h2>
+    <ol class="steps">
+      <li><h3>สมัครด้วยอีเมล</h3><p class="mute">ใส่ชื่อที่อยากให้เรียก อีเมล และรหัสผ่าน แล้วยืนยันอีเมลที่ได้รับ</p></li>
+      <li><h3>เลือกหรือสุ่มคำถาม</h3><p class="mute">กรองตามหมวด ระดับ หรือภาษาได้ ดูแนวทางตอบได้ แต่ลองคิดเองก่อนจะดีกว่า</p></li>
+      <li><h3>พิมพ์คำตอบแล้วตรวจ</h3><p class="mute">ร่างคำตอบจะถูกเก็บไว้ในเครื่องให้อัตโนมัติ เมื่อบันทึกการซ้อมแล้วจะดูได้ในหน้า “ประวัติ”</p></li>
+    </ol>
+  </section>
+
+  <section class="card" aria-labelledby="h-trust">
+    <h2 id="h-trust">ความเป็นส่วนตัวและข้อควรรู้</h2>
+    <ul>
+      <li>เก็บเฉพาะข้อมูลที่จำเป็น ได้แก่ ชื่อที่แสดง ระดับการศึกษา และอีเมลสำหรับเข้าสู่ระบบ</li>
+      <li>ไม่มีการอัดเสียง คุณพิมพ์คำตอบเท่านั้น</li>
+      <li>ลบบัญชีและข้อมูลทั้งหมดได้เองจากหน้า “ของฉัน”</li>
+      <li>คะแนนเป็นเพียงแนวทางเบื้องต้น ไม่ใช่ผลสอบจริง และไม่ได้การันตีว่าจะผ่านการสัมภาษณ์</li>
+    </ul>
+    <p class="note">ใช้เพื่อการฝึกฝนเท่านั้น หากต้องเตรียมตัวสมัครงานหรือเข้าศึกษาต่อ ควรปรึกษาผู้รู้ในสาขานั้นเพิ่มเติม</p>
+  </section>
+
+  <section class="card" aria-labelledby="h-support">
+    <h2 id="h-support">อยากสนับสนุนค่าเซิร์ฟเวอร์?</h2>
+    <p>แอปใช้ฟรี การสนับสนุนเป็นทางเลือกเท่านั้น ไม่มีผลต่อการใช้งานใด ๆ</p>
+    <div class="cta" style="margin-top:10px">
+      <a class="btn" style="background:var(--chip);color:var(--ink);border-color:var(--line)" href="donate.html">ดูช่องทางสนับสนุน</a>
+    </div>
+  </section>
+
+  <footer>
+    <div id="copy"></div>
+    <div>ติดต่อผู้พัฒนาระบบ: <a href="mailto:timemachine68@gmail.com">timemachine68@gmail.com</a></div>
+  </footer>
+</main>
+<script>
+(function(){
+  var y=new Date().getFullYear();
+  document.getElementById("copy").textContent="© "+y+" ภานุวัฒน์ ทัดเนียม · สงวนลิขสิทธิ์";
+  try{ var t=localStorage.getItem("interview-theme"); if(t==="light"||t==="dark") document.documentElement.setAttribute("data-theme",t); }catch(e){}
+})();
+</script>
+</body>
+</html>

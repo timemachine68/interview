@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ฝึกสัมภาษณ์</title>
+<title>ซ้อมสัมภาษณ์</title>
 <script>try{var t=localStorage.getItem("interview-theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <meta name="description" content="ฝึกซ้อมตอบคำถามสัมภาษณ์ ฟรี พิมพ์ตอบได้เลย ตรวจเบื้องต้นให้ทันที และเก็บประวัติการซ้อมของคุณ">
 <meta name="theme-color" content="#F3EFFC" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#17132B" media="(prefers-color-scheme: dark)">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="th_TH">
-<meta property="og:site_name" content="ฝึกสัมภาษณ์">
-<meta property="og:title" content="ฝึกสัมภาษณ์ ซ้อมให้มั่นใจก่อนวันจริง">
+<meta property="og:site_name" content="ซ้อมสัมภาษณ์">
+<meta property="og:title" content="ซ้อมสัมภาษณ์ ซ้อมให้มั่นใจก่อนวันจริง">
 <meta property="og:description" content="คลังคำถามกว่า 280 ข้อ พิมพ์ตอบ ตรวจเบื้องต้นทันที ฝึกฟรี">
 <meta property="og:url" content="https://timemachine68.github.io/interview/">
 <meta property="og:image" content="https://timemachine68.github.io/interview/og.png">
@@ -71,8 +71,8 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .row>*{flex:0 0 auto}
 .grow{flex:1 1 160px !important}
-.tabs{display:flex;gap:6px;margin:0 0 14px;position:sticky;top:0;background:transparent;backdrop-filter:blur(6px);padding:8px 0;z-index:2}
-.tabs button{flex:1;border-radius:999px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px;position:sticky;top:0;background:transparent;backdrop-filter:blur(6px);padding:8px 0;z-index:2}
+.tabs button{flex:1 1 auto;min-width:0;border-radius:999px;font-size:.9rem;padding:8px 8px;white-space:nowrap}
 .tabs button.on{background:var(--brand);color:var(--brand-ink);border-color:var(--brand);font-weight:600}
 .chip{display:inline-block;color:var(--ink);background:var(--chip);border-radius:999px;padding:1px 10px;font-size:.82rem;margin:2px 4px 2px 0}
 .qitem{display:block;width:100%;text-align:left;margin:0 0 8px;padding:12px 14px;border-radius:12px;min-height:0;border-color:var(--line)}
@@ -173,6 +173,7 @@ button.sm{min-height:40px;padding:6px 14px;border-radius:12px;font-size:.92rem}
 .bar>i.weak{background:var(--acc)}
 .tag{display:inline-block;font-size:.75rem;border-radius:999px;padding:0 8px;margin-left:6px;background:var(--warn-bg);color:var(--warn)}
 .tag.good{background:var(--ok-bg);color:var(--ok)}
+.tag.bad{background:var(--bad-bg);color:var(--bad)}
 .steps{margin:0;padding-left:1.3em}
 .steps li{margin:6px 0}
 @media (prefers-reduced-motion:no-preference){
@@ -438,7 +439,7 @@ function viewAuth(mode="login", note=null){
     sv.innerHTML='<rect x="24" y="14" width="190" height="62" rx="20" style="fill:var(--card)"/><path d="M52 76 L44 98 L78 76 Z" style="fill:var(--card)"/><rect x="42" y="30" width="120" height="9" rx="4.5" fill="#4B2E83"/><rect x="42" y="50" width="90" height="9" rx="4.5" fill="#CFC4EE"/><rect x="150" y="84" width="196" height="54" rx="20" fill="#4B2E83"/><rect x="170" y="100" width="130" height="9" rx="4.5" fill="#FFD43B"/><rect x="170" y="118" width="80" height="9" rx="4.5" fill="#B9A7E8"/><path d="M318 14 l5 12 13 1 -10 8 3 13 -11 -7 -11 7 3 -13 -10 -8 13 -1z" fill="#FFD43B"/>';return sv;};
   mount(
     h("div",{class:"hero"},
-      h("div",{class:"brandname",style:"font-weight:700;font-size:1.3rem;color:var(--brand)"},"ฝึกสัมภาษณ์"),
+      h("div",{class:"brandname",style:"font-weight:700;font-size:1.3rem;color:var(--brand)"},"ซ้อมสัมภาษณ์"),
       h("span",{class:"badge"},"ฝึกฟรี · พิมพ์ตอบได้เลย"),
       h("h1",{},"ซ้อมสัมภาษณ์ ",h("em",{},"ให้มั่นใจ")," ก่อนวันจริง"),
       h("p",{},"คลังคำถามกว่า 280 ข้อ ตอบด้วยการพิมพ์ ระบบตรวจเบื้องต้นให้ทันที และเก็บประวัติให้เห็นพัฒนาการของคุณ"),
@@ -509,13 +510,17 @@ async function fetchAll(build){
   } return out;
 }
 async function loadCatalog(){
-  const [types,cats,qs]=await Promise.all([
+  const [types,cats,qs,unis,facs]=await Promise.all([
     fetchAll(()=>sb.from("interview_types").select("id,slug,name_th,sort_order").eq("is_active",true).order("sort_order").order("id")),
     fetchAll(()=>sb.from("question_categories").select("id,name_th,sort_order").order("sort_order").order("id")),
-    fetchAll(()=>sb.from("questions").select("id,interview_type_id,category_id,question_text,level,tip_th,keywords,min_chars,max_chars,suggested_seconds,language,university_name").order("id"))
+    fetchAll(()=>sb.from("questions").select("id,interview_type_id,category_id,question_text,level,tip_th,keywords,min_chars,max_chars,suggested_seconds,language,university_name,university_id,faculty_id").order("id")),
+    fetchAll(()=>sb.from("universities").select("id,name_th,sort_order").eq("is_active",true).order("sort_order").order("id")),
+    fetchAll(()=>sb.from("faculties").select("id,university_id,name_th,sort_order").eq("is_active",true).order("sort_order").order("id"))
   ]);
-  S.cat={types,cats,qs,byCat:Object.fromEntries(cats.map(c=>[c.id,c.name_th])),typeName:Object.fromEntries(types.map(t=>[t.id,t.name_th]))};
+  S.cat={types,cats,qs,unis,facs,byCat:Object.fromEntries(cats.map(c=>[c.id,c.name_th])),typeName:Object.fromEntries(types.map(t=>[t.id,t.name_th])),
+    uniName:Object.fromEntries(unis.map(u=>[u.id,u.name_th])),facName:Object.fromEntries(facs.map(f=>[f.id,f.name_th]))};
   S.f.type = S.f.type || (types[0]&&String(types[0].id)) || "";
+  S.f.uni = S.f.uni || ""; S.f.fac = S.f.fac || "";
 }
 
 /* ===== หน้าหลัก ===== */
@@ -536,7 +541,7 @@ function viewHome(){
   if(S.tab==="dash") loadDash();
   if(S.tab==="practice") loadStats();
   if(S.tab==="history"){ track("view_history"); if(S.hist.rows.length===0 && !S.hist.done) loadHistory(); }
-  if(S.tab==="me") track("view_me");
+  if(S.tab==="me"){ track("view_me"); loadSubs(false); }
   if(S.tab==="stats") loadAdminStats(S.statsDays);
 }
 async function loadStats(){
@@ -553,12 +558,16 @@ async function loadStats(){
 function filtered(){
   const f=S.f, q=f.q.trim().toLowerCase();
   return S.cat.qs.filter(x=>(!f.type||String(x.interview_type_id)===f.type)&&(!f.cat||String(x.category_id)===f.cat)&&
-    (!f.level||x.level===f.level)&&(!f.lang||x.language===f.lang)&&(!q||x.question_text.toLowerCase().includes(q)));
+    (!f.level||x.level===f.level)&&(!f.lang||x.language===f.lang)&&(!q||x.question_text.toLowerCase().includes(q))&&
+    (!f.uni||(f.uni==="none"?x.university_id==null:String(x.university_id)===f.uni))&&(!f.fac||String(x.faculty_id)===f.fac));
 }
 function tabPractice(){
   const f=S.f, c=S.cat;
+  const uIds=new Set(c.qs.map(x=>x.university_id).filter(x=>x!=null));
+  const uniOpts=c.unis.filter(u=>uIds.has(u.id)).map(u=>[String(u.id),u.name_th]);
+  const facOpts=(f.uni&&f.uni!=="none")?c.facs.filter(x=>String(x.university_id)===f.uni).map(x=>[String(x.id),x.name_th]):[];
   const sel=(key,opts,label)=>h("div",{class:"grow"},h("label",{},label),
-    h("select",{onchange:e=>{f[key]=e.target.value;f.show=PAGE;viewHome();}},opts.map(([v,t])=>h("option",{value:v,selected:f[key]===v},t))));
+    h("select",{onchange:e=>{f[key]=e.target.value;if(key==="uni")f.fac="";f.show=PAGE;viewHome();}},opts.map(([v,t])=>h("option",{value:v,selected:f[key]===v},t))));
   const list=filtered(), shown=list.slice(0,f.show);
   const search=h("input",{type:"search",placeholder:"ค้นหาในคำถาม",value:f.q,maxlength:"60",
     oninput:e=>{f.q=e.target.value;f.show=PAGE;clearTimeout(search._t);search._t=setTimeout(()=>{viewHome();const s=document.querySelector("input[type=search]");if(s){s.focus();s.setSelectionRange(s.value.length,s.value.length);}},350);}});
@@ -569,7 +578,9 @@ function tabPractice(){
         c.types.length>1&&sel("type",c.types.map(t=>[String(t.id),t.name_th]),"ประเภทสัมภาษณ์"),
         sel("cat",[["","ทุกหมวด"],...c.cats.map(x=>[String(x.id),x.name_th])],"หมวด"),
         sel("level",[["","ทุกระดับ"],["พื้นฐาน","พื้นฐาน"],["ปานกลาง","ปานกลาง"],["ท้าทาย","ท้าทาย"]],"ระดับ"),
-        sel("lang",[["","ไทย + อังกฤษ"],["th","ภาษาไทย"],["en","ภาษาอังกฤษ"]],"ภาษา")),
+        sel("lang",[["","ไทย + อังกฤษ"],["th","ภาษาไทย"],["en","ภาษาอังกฤษ"]],"ภาษา"),
+        sel("uni",[["","ทุกมหาวิทยาลัย"],["none","ไม่ระบุมหาวิทยาลัย"],...uniOpts],"มหาวิทยาลัย"),
+        facOpts.length?sel("fac",[["","ทุกคณะ"],...facOpts],"คณะ"):null),
       h("label",{},"ค้นหา"),search,
       h("div",{class:"row",style:"margin-top:12px"},
         h("button",{class:"primary",disabled:list.length===0,onclick:()=>startPractice(list[Math.floor(Math.random()*list.length)])},icon("dice")," สุ่มหนึ่งข้อ"),
@@ -578,7 +589,7 @@ function tabPractice(){
     shown.map(q=>h("button",{class:"qitem",onclick:()=>startPractice(q)},
       h("div",{class:"t"},q.question_text),
       h("div",{},h("span",{class:"chip"},c.byCat[q.category_id]||""),h("span",{class:"chip"},q.level),
-        q.language==="en"&&h("span",{class:"chip"},"English"),q.university_name&&h("span",{class:"chip"},q.university_name)))),
+        q.language==="en"&&h("span",{class:"chip"},"English"),tagChips(q)))),
     list.length>f.show?h("button",{onclick:()=>{f.show+=PAGE;viewHome();}},"แสดงเพิ่ม ("+(list.length-f.show)+" ข้อที่เหลือ)"):null
   ];
 }
@@ -775,6 +786,96 @@ function renderDash(rows){
   return out;
 }
 
+function tagChips(q){
+  const u=q.university_id!=null?S.cat.uniName[q.university_id]:q.university_name;
+  const f=q.faculty_id!=null?S.cat.facName[q.faculty_id]:null;
+  return [u&&h("span",{class:"chip"},u), f&&h("span",{class:"chip"},f)];
+}
+
+/* ===== ส่งคำถามที่เจอมา (ต้องผู้ดูแลตรวจก่อนเผยแพร่) ===== */
+const SUB={rows:[],show:PAGE,loaded:false,err:false,note:null};
+const SUB_STATUS={pending:["รอตรวจ",""],approved:["เผยแพร่แล้ว","good"],rejected:["ยังไม่ผ่านการตรวจ","bad"]};
+function submitCard(){
+  const c=S.cat;
+  const ta=h("textarea",{maxlength:"300",placeholder:"พิมพ์คำถามตามที่ถูกถาม (20–300 ตัวอักษร)","aria-label":"คำถาม"});
+  const counter=h("div",{class:"mute",role:"status"},"0/300 ตัวอักษร");
+  ta.addEventListener("input",()=>{ counter.textContent=[...ta.value.trim()].length+"/300 ตัวอักษร"; });
+  const catSel=h("select",{"aria-label":"หมวด"},c.cats.map(x=>h("option",{value:String(x.id)},x.name_th)));
+  const lvSel=h("select",{"aria-label":"ระดับ"},LEVELS.map(x=>h("option",{value:x},x)));
+  const lgSel=h("select",{"aria-label":"ภาษา"},h("option",{value:"th"},"ภาษาไทย"),h("option",{value:"en"},"English"));
+  const uniSel=h("select",{"aria-label":"มหาวิทยาลัย"},h("option",{value:""},"ไม่ระบุมหาวิทยาลัย"),c.unis.map(u=>h("option",{value:String(u.id)},u.name_th)));
+  const facBox=h("div");
+  uniSel.addEventListener("change",()=>{
+    const list=c.facs.filter(x=>String(x.university_id)===uniSel.value);
+    const node = list.length
+      ? h("div",{},h("label",{},"คณะ"),h("select",{"aria-label":"คณะ"},h("option",{value:""},"ไม่ระบุคณะ"),list.map(x=>h("option",{value:String(x.id)},x.name_th))))
+      : (uniSel.value ? h("div",{class:"mute",style:"font-size:.9rem"},"ยังไม่มีรายการคณะของมหาวิทยาลัยนี้ ส่งได้โดยไม่ระบุคณะ") : null);
+    facBox.replaceChildren(...(node?[node]:[]));
+  });
+  const out=h("div");
+  const btn=h("button",{class:"primary"},"ส่งให้ผู้ดูแลตรวจ");
+  btn.addEventListener("click",async()=>{
+    out.replaceChildren();
+    const text=ta.value.trim(), n=[...text].length;
+    if(n<20) return out.append(msg("err","คำถามสั้นเกินไป ต้องมีอย่างน้อย 20 ตัวอักษร ลองพิมพ์ให้ครบประโยค"));
+    if(n>300) return out.append(msg("err","คำถามยาวเกินไป ต้องไม่เกิน 300 ตัวอักษร ลองตัดให้สั้นลง"));
+    if(!/[A-Za-zก-๙]/.test(text)) return out.append(msg("err","คำถามต้องมีตัวอักษรไทยหรืออังกฤษ ไม่ใช่สัญลักษณ์อย่างเดียว"));
+    const fac=facBox.querySelector("select");
+    const row={question_text:text,category_id:Number(catSel.value),level:lvSel.value,language:lgSel.value,
+      university_id:uniSel.value?Number(uniSel.value):null,faculty_id:(fac&&fac.value)?Number(fac.value):null};
+    btn.disabled=true;
+    const {error}=await sb.from("question_submissions").insert(row);
+    btn.disabled=false;
+    if(error) return out.append(msg("err",friendly(error,"ส่งคำถามไม่สำเร็จ ลองใหม่อีกครั้ง")));
+    ta.value=""; counter.textContent="0/300 ตัวอักษร";
+    out.append(msg("ok","ส่งแล้ว ผู้ดูแลจะตรวจก่อนเผยแพร่ ดูสถานะได้ด้านล่าง"));
+    loadSubs(true);
+  });
+  return h("div",{class:"card"},h("h2",{},"ส่งคำถามที่เจอมา"),
+    h("p",{class:"mute"},"ช่วยให้เพื่อน ๆ ได้ซ้อมจากคำถามจริง คำถามจะแสดงให้คนอื่นเห็นหลังผู้ดูแลตรวจแล้วเท่านั้น ระบบไม่แสดงชื่อหรืออีเมลของคุณ"),
+    h("label",{},"คำถาม"),ta,counter,
+    h("div",{class:"row",style:"margin-top:8px"},h("div",{class:"grow"},h("label",{},"หมวด"),catSel),h("div",{class:"grow"},h("label",{},"ระดับ"),lvSel)),
+    h("div",{class:"row"},h("div",{class:"grow"},h("label",{},"ภาษา"),lgSel),h("div",{class:"grow"},h("label",{},"มหาวิทยาลัย"),uniSel)),
+    facBox,
+    h("div",{class:"row",style:"margin-top:10px"},btn),out,
+    h("h3",{style:"margin-top:18px"},"คำถามที่คุณส่งไว้"),
+    h("div",{id:"subs","aria-live":"polite"},h("p",{class:"mute"},"กำลังโหลดรายการ...")));
+}
+async function loadSubs(force){
+  const box=document.getElementById("subs"); if(!box) return;
+  if(force||!SUB.loaded){
+    try{
+      SUB.rows=await fetchAll(()=>sb.from("question_submissions").select("id,question_text,status,created_at,level,university_id,faculty_id,category_id").order("id",{ascending:false}));
+      SUB.loaded=true; SUB.err=false;
+    }catch(e){ SUB.err=true; }
+  }
+  if(box.isConnected) renderSubs(box);
+}
+function renderSubs(box){
+  const c=S.cat;
+  if(SUB.err){ box.replaceChildren(msg("err","โหลดรายการไม่สำเร็จ ลองเปิดหน้านี้ใหม่อีกครั้ง")); return; }
+  if(!SUB.rows.length){ box.replaceChildren(h("p",{class:"mute"},"ยังไม่มีคำถามที่ส่งไว้ ถ้าเจอคำถามจริงในการสัมภาษณ์ ส่งมาได้เลย")); return; }
+  const pending=SUB.rows.filter(r=>r.status==="pending").length;
+  box.replaceChildren(...[
+    SUB.note?msg("err",SUB.note):null,
+    h("p",{class:"mute",style:"margin:0 0 6px"},"รอตรวจอยู่ "+pending+" ข้อ (รอตรวจพร้อมกันได้สูงสุด 10 ข้อ)"),
+    SUB.rows.slice(0,SUB.show).map(r=>{ const [lab,tone]=SUB_STATUS[r.status]||["ไม่ทราบสถานะ",""];
+      return h("div",{style:"border-top:1px solid var(--line);padding:10px 0"},
+        h("div",{style:"font-weight:600"},r.question_text),
+        h("div",{style:"margin-top:4px"},h("span",{class:"chip"},c.byCat[r.category_id]||""),h("span",{class:"chip"},r.level),tagChips(r),
+          h("span",{class:"tag"+(tone?" "+tone:"")},lab)),
+        r.status==="pending"?h("div",{class:"row",style:"margin-top:6px"},h("button",{class:"sm",onclick:()=>delSub(r.id,box)},"ลบคำถามนี้")):null);
+    }),
+    SUB.rows.length>SUB.show?h("button",{onclick:()=>{SUB.show+=PAGE;renderSubs(box);}},"แสดงเพิ่ม ("+(SUB.rows.length-SUB.show)+" ข้อที่เหลือ)"):null
+  ].flat(Infinity).filter(Boolean));
+}
+async function delSub(id,box){
+  if(!confirm("ลบคำถามนี้ใช่ไหม? ลบแล้วกู้คืนไม่ได้")) return;
+  const {error}=await sb.from("question_submissions").delete().eq("id",id);
+  if(error){ SUB.note=friendly(error,"ลบไม่สำเร็จ ลองใหม่อีกครั้ง"); return renderSubs(box); }
+  SUB.note=null; SUB.rows=SUB.rows.filter(r=>r.id!==id); renderSubs(box);
+}
+
 /* ===== ตรวจกติกา (คำนวณในเครื่อง ไม่ส่งไป AI) ===== */
 const norm=s=>s.toLowerCase().replace(/\s+/g,"");
 function ruleCheck(q,text){
@@ -857,7 +958,7 @@ function viewPractice(){
         h("button",{onclick:()=>nextRandom(false)},icon("dice")," ข้อใหม่")),
       h("span",{},icon("timer")," ",timerEl,q.suggested_seconds?h("span",{class:"mute"}," (แนะนำ ~"+Math.round(q.suggested_seconds/60*10)/10+" นาที)"):null)),
     h("div",{class:"card",style:"margin-top:12px"},
-      h("div",{},h("span",{class:"chip"},c.byCat[q.category_id]||""),h("span",{class:"chip"},q.level),q.university_name&&h("span",{class:"chip"},q.university_name)),
+      h("div",{},h("span",{class:"chip"},c.byCat[q.category_id]||""),h("span",{class:"chip"},q.level),tagChips(q)),
       h("p",{class:"q"},q.question_text),
       q.tip_th&&h("button",{class:"link",onclick:()=>{p.tip=!p.tip;viewPractice();}},p.tip?"ซ่อนแนวทางตอบ":"ดูแนวทางตอบ (ลองคิดเองก่อนจะดีกว่า)"),
       p.tip&&q.tip_th&&h("div",{class:"msg warn"},q.tip_th)),
@@ -1032,6 +1133,7 @@ function tabMe(){
       if(error) return out.append(msg("err",friendly(error,"บันทึกไม่สำเร็จ ลองใหม่")));
       S.profile.display_name=name.slice(0,50); S.profile.education_level=lv.value; out.append(msg("ok","บันทึกแล้ว"));
     }},"บันทึก"))),
+    submitCard(),
     h("div",{class:"card"},h("h2",{},"เอกสารและความเป็นส่วนตัว"),
       h("button",{onclick:showTerms},"อ่านเงื่อนไขและนโยบาย")),
     h("div",{class:"card"},h("h2",{},"ติดต่อผู้พัฒนาระบบ"),
