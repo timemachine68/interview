@@ -67,6 +67,8 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .feat{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:10px 14px;margin:0 0 8px}
 .feat b{font-family:"Prompt","Noto Sans Thai",sans-serif}
 .stat{background:var(--chip)}
+.site-foot{text-align:center;color:var(--mute);font-size:.9rem;padding-top:0;padding-bottom:28px}
+.site-foot a{color:var(--brand)}
 .wave{display:block;width:100%;height:36px;margin-top:8px}
 .q{font-size:1.2rem;font-weight:600}
 .clamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -81,6 +83,7 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
 </head>
 <body>
 <div class="wrap" id="app"><p class="mute">กำลังโหลด...</p></div>
+<footer class="wrap site-foot" id="foot"></footer>
 <dialog id="dlg"></dialog>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
@@ -90,12 +93,13 @@ const SUPABASE_URL = "https://mkracmdedmqmazviqple.supabase.co";
 const SUPABASE_KEY = "sb_publishable_dn_Pdqekewgppipl2263vw_CAH2wuSz";
 const TERMS_VERSION = "1.0";          // ถ้าแก้เงื่อนไข ให้เปลี่ยนเลขนี้ ผู้ใช้จะต้องยอมรับใหม่
 const CONTACT = "timemachine68@gmail.com";                 // ใส่อีเมล/ช่องทางติดต่อ (ใช้ในข้อความขอลบบัญชี)
+const CREATOR = "ภานุวัฒน์ ทัดเนียม";   // ชื่อผู้สร้างที่แสดงใน footer
 const DONATE_URL = "donate.html";                // ใส่ลิงก์หน้าบริจาค เมื่อพร้อม (เว้นว่าง = ไม่แสดง)
 const PAGE = 20;
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const app = document.getElementById("app");
-const S = {user:null, profile:null, recovery:false, cat:null, tab:"practice",
+const S = {flash:null, user:null, profile:null, recovery:false, cat:null, tab:"practice",
   f:{cat:"",level:"",q:"",lang:"",show:PAGE}, hist:{rows:[],done:false,loading:false,open:{}}, p:null};
 
 /* ===== ตัวช่วย ===== */
@@ -142,7 +146,7 @@ const TERMS_TEXT = [
   "ข้อมูลที่เก็บ: อีเมล (ใช้เข้าสู่ระบบ), ชื่อที่แสดง, ระดับการศึกษา, คำตอบที่คุณพิมพ์ฝึก, คะแนน, เวลาที่ใช้ และวันเวลาที่ฝึก",
   "ใช้เพื่อแสดงประวัติการซ้อมของคุณเองเท่านั้น ผู้ใช้คนอื่นมองไม่เห็นข้อมูลของคุณ ไม่ขายและไม่ส่งต่อข้อมูลให้ผู้อื่น",
   "คุณลบประวัติการซ้อมของตัวเองได้ทุกเมื่อในหน้า “ประวัติ”",
-  "ต้องการลบบัญชี ให้ติดต่อผู้ดูแล"+(CONTACT?" ที่ "+CONTACT:"")+" ข้อมูลทั้งหมดของคุณจะถูกลบตามบัญชี",
+  "คุณลบบัญชีของตัวเองได้ทุกเมื่อที่หน้า “ของฉัน” ข้อมูลทั้งหมดของคุณจะถูกลบทันทีและกู้คืนไม่ได้ ถ้ามีคำถามติดต่อผู้พัฒนาระบบที่ "+CONTACT,
   "ผู้ดูแลระบบเข้าถึงฐานข้อมูลในทางเทคนิคได้ แต่จะไม่เปิดดูคำตอบของคุณ เว้นแต่จำเป็นต้องแก้ไขปัญหาของระบบ"]]
 ];
 function showTerms(){
@@ -159,7 +163,7 @@ async function route(){
     if(S.recovery) return viewRecover();
     const {data:{session}} = await sb.auth.getSession();
     S.user = session ? session.user : null;
-    if(!S.user) return viewAuth();
+    if(!S.user){ const f=S.flash; S.flash=null; return viewAuth("login",f?msg("ok",f):null); }
     const [pr, cs] = await Promise.all([
       sb.from("profiles").select("display_name,education_level").eq("id",S.user.id).maybeSingle(),
       sb.from("consents").select("consent_type").eq("version",TERMS_VERSION).limit(10)
@@ -231,7 +235,7 @@ function viewAuth(mode="login", note=null){
     h("div",{},h("div",{class:"feat"},h("span",{},"📚"),h("div",{},h("b",{},"คลังคำถามหลายสายงาน"),h("div",{class:"mute"},"กรองตามหมวด ระดับ และภาษา"))),
       h("div",{class:"feat"},h("span",{},"⏱️"),h("div",{},h("b",{},"จับเวลา ตรวจเบื้องต้น"),h("div",{class:"mute"},"เห็นคะแนนและประเด็นที่ขาดทันที"))),
       h("div",{class:"feat"},h("span",{},"📈"),h("div",{},h("b",{},"ดูพัฒนาการของตัวเอง"),h("div",{class:"mute"},"ประวัติการซ้อมของคุณคนเดียว")))),
-    DONATE_URL&&h("footer",{},h("a",{href:DONATE_URL},"ร่วมสนับสนุนค่า server")));
+    null);
 }
 async function forgot(email,out){
   out.replaceChildren();
@@ -307,7 +311,7 @@ function tabs(){
 function viewHome(){
   const body = S.tab==="practice"?tabPractice(): S.tab==="history"?tabHistory(): tabMe();
   mount(header(),tabs(),body,
-    DONATE_URL&&h("footer",{},h("a",{href:DONATE_URL},"ร่วมสนับสนุนค่า server")));
+    null);
   if(S.tab==="practice") loadStats();
   if(S.tab==="history" && S.hist.rows.length===0 && !S.hist.done) loadHistory();
 }
@@ -542,10 +546,36 @@ function tabMe(){
       S.profile.display_name=name.slice(0,50); S.profile.education_level=lv.value; out.append(msg("ok","บันทึกแล้ว"));
     }},"บันทึก"))),
     h("div",{class:"card"},h("h2",{},"เอกสารและความเป็นส่วนตัว"),
-      h("button",{onclick:showTerms},"อ่านเงื่อนไขและนโยบาย"),
-      h("p",{class:"mute"},"ต้องการลบบัญชีและข้อมูลทั้งหมด ให้ติดต่อผู้ดูแล"+(CONTACT?" ที่ "+CONTACT:"")+" (คุณลบประวัติการซ้อมเองได้ในแท็บ “ประวัติ”)"))];
+      h("button",{onclick:showTerms},"อ่านเงื่อนไขและนโยบาย")),
+    h("div",{class:"card"},h("h2",{},"ติดต่อผู้พัฒนาระบบ"),
+      h("p",{class:"mute"},"พบปัญหาการใช้งาน หรือมีข้อเสนอแนะ ส่งอีเมลมาได้ที่"),
+      h("a",{href:"mailto:"+CONTACT},CONTACT)),
+    (()=>{
+      const conf=h("input",{type:"text",autocomplete:"off",placeholder:"พิมพ์คำว่า ลบบัญชี","aria-label":"พิมพ์คำว่า ลบบัญชี เพื่อยืนยัน"});
+      const out=h("div");
+      const btn=h("button",{class:"danger",disabled:true,onclick:async()=>{
+        out.replaceChildren();
+        if(conf.value.trim()!=="ลบบัญชี") return;
+        if(!confirm("ลบบัญชีและข้อมูลทั้งหมดถาวรใช่ไหม? กู้คืนไม่ได้")) return;
+        btn.disabled=true;
+        const {error}=await sb.rpc("delete_my_account");
+        if(error){ btn.disabled=false; return out.append(msg("err",friendly(error,"ลบบัญชีไม่สำเร็จ ลองใหม่อีกครั้ง ถ้ายังไม่ได้ติดต่อผู้พัฒนาที่ "+CONTACT))); }
+        S.flash="ลบบัญชีและข้อมูลทั้งหมดของคุณแล้ว ขอบคุณที่ใช้งาน";
+        await sb.auth.signOut({scope:"local"});
+        S.user=null; route();
+      }},"ลบบัญชีของฉัน");
+      conf.addEventListener("input",()=>{ btn.disabled=conf.value.trim()!=="ลบบัญชี"; });
+      return h("div",{class:"card",style:"border-color:var(--bad)"},h("h2",{style:"color:var(--bad)"},"ลบบัญชี"),
+        h("p",{},"ลบบัญชีแล้ว ข้อมูลทั้งหมดของคุณจะหายทันที ได้แก่ ชื่อ ระดับการศึกษา คำตอบ และประวัติการซ้อมทุกครั้ง และกู้คืนไม่ได้"),
+        h("label",{},"พิมพ์คำว่า ลบบัญชี เพื่อยืนยัน"),conf,out,h("div",{style:"margin-top:12px"},btn));
+    })()];
 }
 
+(function(){
+  const f=document.getElementById("foot");
+  f.append(h("div",{},"© "+new Date().getFullYear()+" "+CREATOR+" · สงวนลิขสิทธิ์"),
+    h("div",{},"ติดต่อผู้พัฒนาระบบ: ",h("a",{href:"mailto:"+CONTACT},CONTACT),DONATE_URL?[" · ",h("a",{href:DONATE_URL},"ร่วมสนับสนุนค่า server")]:null));
+})();
 route();
 </script>
 </body>
