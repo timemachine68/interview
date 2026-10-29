@@ -288,7 +288,7 @@ async function loadCatalog(){
   const [types,cats,qs]=await Promise.all([
     fetchAll(()=>sb.from("interview_types").select("id,slug,name_th,sort_order").eq("is_active",true).order("sort_order").order("id")),
     fetchAll(()=>sb.from("question_categories").select("id,name_th,sort_order").order("sort_order").order("id")),
-    fetchAll(()=>sb.from("questions").select("id,interview_type_id,category_id,question_text,level,tip_th,keywords,min_chars,max_chars,suggested_seconds,language,university_name").eq("is_active",true).order("id"))
+    fetchAll(()=>sb.from("questions").select("id,interview_type_id,category_id,question_text,level,tip_th,keywords,min_chars,max_chars,suggested_seconds,language,university_name").order("id"))
   ]);
   S.cat={types,cats,qs,byCat:Object.fromEntries(cats.map(c=>[c.id,c.name_th])),typeName:Object.fromEntries(types.map(t=>[t.id,t.name_th]))};
   S.f.type = S.f.type || (types[0]&&String(types[0].id)) || "";
