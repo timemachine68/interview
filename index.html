@@ -134,7 +134,7 @@ function friendly(e, fallback){
 const TERMS_TEXT = [
  ["เงื่อนไขการใช้งาน (เวอร์ชัน "+TERMS_VERSION+")",[
   "ระบบนี้ใช้ฝึกซ้อมสัมภาษณ์เท่านั้น คะแนนเป็นเพียงตัวช่วยเบื้องต้น ไม่ใช่ผลสอบจริง และไม่รับรองว่าจะสอบผ่าน",
-  "ใช้งานได้ฟรี การเลี้ยงกาแฟเป็นความสมัครใจ และไม่ได้ซื้อสิทธิ์พิเศษ",
+  "ใช้งานได้ฟรี การร่วมสนับสนุนค่า server เป็นความสมัครใจ และไม่ได้ซื้อสิทธิ์พิเศษ",
   "ห้ามพิมพ์ข้อมูลส่วนตัวของผู้อื่น ความลับ หรือข้อความที่ผิดกฎหมายลงในคำตอบ",
   "ปุ่ม “คัดลอก prompt” เพียงคัดลอกข้อความให้คุณนำไปวางใน AI ที่คุณใช้เอง ระบบนี้ไม่ได้ส่งคำตอบของคุณไปให้ AI ใด ๆ ข้อความที่คุณวางต่อจะอยู่ภายใต้เงื่อนไขของผู้ให้บริการ AI นั้น",
   "ผู้ดูแลอาจปรับปรุงระบบหรือเงื่อนไข ถ้ามีการเปลี่ยนเงื่อนไข ระบบจะขอให้คุณยอมรับใหม่"]],
@@ -231,7 +231,7 @@ function viewAuth(mode="login", note=null){
     h("div",{},h("div",{class:"feat"},h("span",{},"📚"),h("div",{},h("b",{},"คลังคำถามหลายสายงาน"),h("div",{class:"mute"},"กรองตามหมวด ระดับ และภาษา"))),
       h("div",{class:"feat"},h("span",{},"⏱️"),h("div",{},h("b",{},"จับเวลา ตรวจเบื้องต้น"),h("div",{class:"mute"},"เห็นคะแนนและประเด็นที่ขาดทันที"))),
       h("div",{class:"feat"},h("span",{},"📈"),h("div",{},h("b",{},"ดูพัฒนาการของตัวเอง"),h("div",{class:"mute"},"ประวัติการซ้อมของคุณคนเดียว")))),
-    DONATE_URL&&h("footer",{},h("a",{href:DONATE_URL},"☕ เลี้ยงกาแฟผู้สร้าง")));
+    DONATE_URL&&h("footer",{},h("a",{href:DONATE_URL},"ร่วมสนับสนุนค่า server")));
 }
 async function forgot(email,out){
   out.replaceChildren();
@@ -307,7 +307,7 @@ function tabs(){
 function viewHome(){
   const body = S.tab==="practice"?tabPractice(): S.tab==="history"?tabHistory(): tabMe();
   mount(header(),tabs(),body,
-    DONATE_URL&&h("footer",{},h("a",{href:DONATE_URL},"☕ เลี้ยงกาแฟผู้สร้าง")));
+    DONATE_URL&&h("footer",{},h("a",{href:DONATE_URL},"ร่วมสนับสนุนค่า server")));
   if(S.tab==="practice") loadStats();
   if(S.tab==="history" && S.hist.rows.length===0 && !S.hist.done) loadHistory();
 }
