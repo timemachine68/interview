@@ -40,14 +40,15 @@
   --ok:#14663F;--ok-bg:#E6F5EC;--warn:#7A5200;--warn-bg:#FFF3BF;--bad:#B3261E;--bad-bg:#FDECEB;--chip:#F1ECFD;
   --grad:linear-gradient(180deg,#FFF3BF 0,#EDE6FB 360px,#F8F5FF 100%);
   --field-line:#7D70A6;
+  --hero-bg:linear-gradient(135deg,#4B2E83 0%,#6A45B5 100%);--hero-ink:#fff;--hero-mute:#DCD2F5;
   color-scheme:light;
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){--bg:#17132B;--card:#221C3F;--ink:#F1EEFB;--mute:#B7B0D6;--line:#3A3160;--brand:#B9A3F5;--brand-dk:#6F58B8;--brand-ink:#1A1235;--acc:#FFD43B;--acc-ink:#3A2A00;
-   --ok:#6FD6A3;--ok-bg:#16301F;--warn:#F1C36B;--warn-bg:#352A10;--bad:#FF9D96;--bad-bg:#3A1B19;--chip:#2D2650;--field-line:#7F74B3;--grad:linear-gradient(180deg,#2A2150 0,#1D1838 360px,#17132B 100%);color-scheme:dark}
+   --ok:#6FD6A3;--ok-bg:#16301F;--warn:#F1C36B;--warn-bg:#352A10;--bad:#FF9D96;--bad-bg:#3A1B19;--chip:#2D2650;--field-line:#7F74B3;--hero-bg:linear-gradient(135deg,#3A2C72 0%,#2A2150 100%);--hero-ink:#F1EEFB;--hero-mute:#C8BFEA;--grad:linear-gradient(180deg,#2A2150 0,#1D1838 360px,#17132B 100%);color-scheme:dark}
 }
 :root[data-theme="dark"]{--bg:#17132B;--card:#221C3F;--ink:#F1EEFB;--mute:#B7B0D6;--line:#3A3160;--brand:#B9A3F5;--brand-dk:#6F58B8;--brand-ink:#1A1235;--acc:#FFD43B;--acc-ink:#3A2A00;
-   --ok:#6FD6A3;--ok-bg:#16301F;--warn:#F1C36B;--warn-bg:#352A10;--bad:#FF9D96;--bad-bg:#3A1B19;--chip:#2D2650;--field-line:#7F74B3;--grad:linear-gradient(180deg,#2A2150 0,#1D1838 360px,#17132B 100%);color-scheme:dark}
+   --ok:#6FD6A3;--ok-bg:#16301F;--warn:#F1C36B;--warn-bg:#352A10;--bad:#FF9D96;--bad-bg:#3A1B19;--chip:#2D2650;--field-line:#7F74B3;--hero-bg:linear-gradient(135deg,#3A2C72 0%,#2A2150 100%);--hero-ink:#F1EEFB;--hero-mute:#C8BFEA;--grad:linear-gradient(180deg,#2A2150 0,#1D1838 360px,#17132B 100%);color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;background:var(--grad) no-repeat var(--bg);min-height:100vh;color:var(--ink);font:16px/1.65 "Noto Sans Thai",system-ui,sans-serif}
 .wrap{max-width:720px;margin:0 auto;padding:16px}
@@ -122,6 +123,64 @@ dialog::backdrop{background:rgba(0,0,0,.5)}
 .pw input{padding-right:84px}
 .pw button{position:absolute;right:4px;top:50%;transform:translateY(-50%);min-height:36px;padding:4px 12px;border:0;background:transparent;color:var(--brand);font-size:.92rem;text-decoration:underline}
 .errlist{margin:6px 0 0;padding-left:1.2em}
+/* ภาพรวมความก้าวหน้า */
+button.sm{min-height:40px;padding:6px 14px;border-radius:12px;font-size:.92rem}
+.dash-hero{position:relative;overflow:hidden;background:var(--hero-bg);color:var(--hero-ink);border-radius:26px;padding:20px;margin:0 0 14px;box-shadow:0 8px 22px rgba(75,46,131,.28);display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center}
+.dash-hero::after{content:"";position:absolute;right:-34px;top:-44px;width:150px;height:150px;border-radius:50%;background:rgba(255,212,59,.16);pointer-events:none}
+.dash-hero>*{position:relative;z-index:1}
+.dash-hero.solo{grid-template-columns:1fr}
+.dash-hero .kicker{font-size:.85rem;color:var(--hero-mute)}
+.dash-hero .big{font-family:"Prompt","Noto Sans Thai",sans-serif;font-size:2.7rem;line-height:1.05;font-weight:700;display:flex;align-items:center;gap:8px;margin-top:2px}
+.dash-hero .big.small{font-size:1.7rem}
+.dash-hero .big small{font-size:1rem;font-weight:500;color:var(--hero-mute);align-self:flex-end;margin-bottom:6px}
+.dash-hero .big .ic{width:.95em;height:.95em;color:var(--acc)}
+.dash-hero .sub{color:var(--hero-mute);margin-top:6px;font-size:.95rem}
+.dash-hero .cta{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap}
+.dash-hero button.go{background:var(--acc);color:var(--acc-ink);border:0;font-weight:700;box-shadow:0 4px 0 rgba(0,0,0,.28)}
+.dash-hero button.go:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,.28)}
+.dash-hero button.ghost{background:transparent;color:var(--hero-ink);border-color:rgba(255,255,255,.55)}
+.ring{width:104px;height:104px;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg);display:block}
+.ring .num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:"Prompt","Noto Sans Thai",sans-serif;font-weight:700;font-size:1.55rem;line-height:1}
+.ring .num small{font-family:"Noto Sans Thai",sans-serif;font-size:.72rem;font-weight:400;color:var(--hero-mute);margin-top:3px}
+.rec{display:grid;grid-template-columns:44px 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.rec:first-of-type{border-top:0;padding-top:4px}
+.rec .ico2{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--chip);color:var(--brand)}
+.rec .ico2 .ic{width:22px;height:22px;vertical-align:0}
+.rec.fix .ico2{background:var(--warn-bg);color:var(--warn)}
+.rec.go .ico2{background:var(--ok-bg);color:var(--ok)}
+.rec b{font-family:"Prompt","Noto Sans Thai",sans-serif;font-weight:700}
+.rec .act{margin-top:8px}
+.delta{display:inline-block;margin-top:2px;font-size:.78rem;border-radius:999px;padding:0 8px}
+.delta.up{background:var(--ok-bg);color:var(--ok)}
+.delta.dn{background:var(--warn-bg);color:var(--warn)}
+.chart{display:block;width:100%;max-width:480px;height:auto;margin:0 auto}
+.chart text{fill:var(--mute);font-size:10px;font-family:"Noto Sans Thai",sans-serif}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.85rem;color:var(--mute);margin-top:6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.heat{display:grid;grid-template-rows:repeat(7,auto);grid-auto-flow:column;grid-auto-columns:1fr;gap:4px}
+.heat i{display:block;aspect-ratio:1;border-radius:5px;background:var(--chip)}
+.heat i.l1{background:color-mix(in srgb,var(--brand) 35%,var(--chip))}
+.heat i.l2{background:color-mix(in srgb,var(--brand) 62%,var(--chip))}
+.heat i.l3{background:var(--brand)}
+.heat i.fut{visibility:hidden}
+.heat i.today{outline:2px solid var(--acc);outline-offset:1px}
+.heatkey{display:flex;align-items:center;gap:4px;justify-content:flex-end;font-size:.8rem;color:var(--mute);margin-top:8px}
+.heatkey i{display:inline-block;width:14px;height:14px;border-radius:4px;background:var(--chip)}
+.heatkey i.l1{background:color-mix(in srgb,var(--brand) 35%,var(--chip))}
+.heatkey i.l2{background:color-mix(in srgb,var(--brand) 62%,var(--chip))}
+.heatkey i.l3{background:var(--brand)}
+.bar>i.weak{background:var(--acc)}
+.tag{display:inline-block;font-size:.75rem;border-radius:999px;padding:0 8px;margin-left:6px;background:var(--warn-bg);color:var(--warn)}
+.tag.good{background:var(--ok-bg);color:var(--ok)}
+.steps{margin:0;padding-left:1.3em}
+.steps li{margin:6px 0}
+@media (prefers-reduced-motion:no-preference){
+  .dcard,.dash-hero{animation:rise .45s ease both}
+  .bar>i{transform-origin:left;animation:grow .7s ease both}
+}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}}
+@keyframes grow{from{transform:scaleX(0)}}
 /* ปรับให้อ่านง่ายบนมือถือและแท็บเล็ต */
 h1,h2,p,li,label,.t,.q,.qitem,.msg{overflow-wrap:anywhere}
 button.link{min-height:40px;padding:8px 6px}
@@ -171,7 +230,7 @@ function getTheme(){
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const app = document.getElementById("app");
-const S = {flash:null, user:null, profile:null, recovery:false, cat:null, tab:"practice", isAdmin:false, statsDays:30,
+const S = {flash:null, user:null, profile:null, recovery:false, cat:null, tab:"dash", dash:null, isAdmin:false, statsDays:30,
   f:{cat:"",level:"",q:"",lang:"",show:PAGE}, hist:{rows:[],done:false,loading:false,open:{}}, p:null};
 
 /* ===== ตัวช่วย ===== */
@@ -198,7 +257,11 @@ const ICONS = {
   timer:'<circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/>',
   trend:'<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>',
   dice:'<rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="9" cy="9" r="1" fill="currentColor"/><circle cx="15" cy="9" r="1" fill="currentColor"/><circle cx="9" cy="15" r="1" fill="currentColor"/><circle cx="15" cy="15" r="1" fill="currentColor"/><circle cx="12" cy="12" r="1" fill="currentColor"/>',
-  clipboard:'<rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4h6v3H9z"/><path d="M9 12h6M9 16h4"/>'
+  clipboard:'<rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4h6v3H9z"/><path d="M9 12h6M9 16h4"/>',
+  flame:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
+  target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+  bulb:'<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6M10 22h4"/>',
+  arrow:'<path d="M5 12h14M13 5l7 7-7 7"/>'
 };
 function icon(name){
   const s=document.createElementNS("http://www.w3.org/2000/svg","svg");
@@ -326,7 +389,7 @@ async function route(){
 }
 sb.auth.onAuthStateChange((ev)=>{
   if(ev==="PASSWORD_RECOVERY") S.recovery=true;
-  if(ev==="SIGNED_OUT"){ S.user=null; S.cat=null; S.p=null; S.isAdmin=false; clearAllDrafts(); S.hist={rows:[],done:false,loading:false,open:{}}; }
+  if(ev==="SIGNED_OUT"){ S.user=null; S.cat=null; S.p=null; S.dash=null; S.tab="dash"; S.isAdmin=false; clearAllDrafts(); S.hist={rows:[],done:false,loading:false,open:{}}; }
   if(ev==="SIGNED_IN"||ev==="SIGNED_OUT"||ev==="PASSWORD_RECOVERY") setTimeout(route,0);
 });
 
@@ -463,13 +526,14 @@ function header(){
 }
 function tabs(){
   const t=(k,l)=>h("button",{class:S.tab===k?"on":"",role:"tab","aria-selected":String(S.tab===k),id:"tab-"+k,"aria-controls":"panel",onclick:()=>{S.tab=k;viewHome();}},l);
-  return h("div",{class:"tabs",role:"tablist","aria-label":"เมนูหลัก"},t("practice","ฝึกตอบ"),t("history","ประวัติ"),t("me","ของฉัน"),S.isAdmin?t("stats","สถิติ"):null);
+  return h("div",{class:"tabs",role:"tablist","aria-label":"เมนูหลัก"},t("dash","ภาพรวม"),t("practice","ฝึกตอบ"),t("history","ประวัติ"),t("me","ของฉัน"),S.isAdmin?t("stats","ผู้ดูแล"):null);
 }
 function viewHome(){
-  if(S.tab==="stats" && !S.isAdmin) S.tab="practice";
-  const body = S.tab==="practice"?tabPractice(): S.tab==="history"?tabHistory(): S.tab==="stats"?tabStats(): tabMe();
+  if(S.tab==="stats" && !S.isAdmin) S.tab="dash";
+  const body = S.tab==="dash"?tabDash(): S.tab==="practice"?tabPractice(): S.tab==="history"?tabHistory(): S.tab==="stats"?tabStats(): tabMe();
   mount(header(),tabs(),h("div",{id:"panel",role:"tabpanel","aria-labelledby":"tab-"+S.tab},body),
     null);
+  if(S.tab==="dash") loadDash();
   if(S.tab==="practice") loadStats();
   if(S.tab==="history"){ track("view_history"); if(S.hist.rows.length===0 && !S.hist.done) loadHistory(); }
   if(S.tab==="me") track("view_me");
@@ -517,6 +581,198 @@ function tabPractice(){
         q.language==="en"&&h("span",{class:"chip"},"English"),q.university_name&&h("span",{class:"chip"},q.university_name)))),
     list.length>f.show?h("button",{onclick:()=>{f.show+=PAGE;viewHome();}},"แสดงเพิ่ม ("+(list.length-f.show)+" ข้อที่เหลือ)"):null
   ];
+}
+
+/* ===== ภาพรวมความก้าวหน้า (คำนวณในเครื่องจากบันทึกการซ้อมของผู้ใช้เอง) ===== */
+const GOAL=3, LEVELS=["พื้นฐาน","ปานกลาง","ท้าทาย"];
+const dayKey=d=>d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate();
+const num=x=>typeof x==="number"&&isFinite(x);
+const avgOf=a=>{ const v=a.filter(num); return v.length?v.reduce((s,x)=>s+x,0)/v.length:null; };
+function tabDash(){ return h("div",{id:"dash"},h("div",{class:"card",role:"status"},h("div",{class:"mute"},"กำลังโหลดภาพรวมของคุณ..."))); }
+async function loadDash(){
+  const box=document.getElementById("dash"); if(!box) return;
+  if(!S.dash){
+    try{
+      const rows=await fetchAll(()=>sb.from("practice_sessions").select("id,created_at,question_id,rule_score,self_score,elapsed_seconds,answer_chars,rule_detail").order("id",{ascending:false}));
+      S.dash={rows};
+    }catch(e){
+      if(!box.isConnected) return;
+      box.replaceChildren(h("div",{class:"card"},msg("err","โหลดภาพรวมไม่สำเร็จ ตรวจอินเทอร์เน็ตแล้วลองใหม่อีกครั้ง"),
+        h("button",{onclick:()=>{ box.replaceChildren(h("div",{class:"card"},h("div",{class:"mute"},"กำลังโหลดภาพรวมของคุณ..."))); loadDash(); }},"โหลดใหม่")));
+      return;
+    }
+  }
+  if(!box.isConnected || S.tab!=="dash") return;
+  box.replaceChildren(...renderDash(S.dash.rows).flat(Infinity).filter(Boolean));
+}
+/* สุ่มคำถามตามตัวกรองประเภท/ภาษา โดยเลือกข้อที่ยังไม่เคยซ้อมก่อน */
+function pickQ(o){
+  o=o||{}; const f=S.f, seen=new Set(((S.dash&&S.dash.rows)||[]).map(r=>r.question_id));
+  const base=x=>(!f.type||String(x.interview_type_id)===f.type)&&(!f.lang||x.language===f.lang)&&(!o.cat||x.category_id===o.cat);
+  let l=S.cat.qs.filter(x=>base(x)&&(!o.level||x.level===o.level));
+  if(!l.length) l=S.cat.qs.filter(base);
+  if(!l.length) l=S.cat.qs.slice();
+  const fresh=l.filter(x=>!seen.has(x.id)), pool=fresh.length?fresh:l;
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+function dashCalc(rows){
+  const qm=new Map(S.cat.qs.map(q=>[q.id,q]));
+  const list=rows.map(r=>({...r,t:new Date(r.created_at)})).filter(r=>!isNaN(r.t)).sort((a,b)=>a.t-b.t||a.id-b.id);
+  const now=new Date(), today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const counts={}; list.forEach(r=>{ const k=dayKey(r.t); counts[k]=(counts[k]||0)+1; });
+  const doneToday=!!counts[dayKey(today)];
+  let streak=0; const cur=new Date(today); if(!doneToday) cur.setDate(cur.getDate()-1);
+  while(counts[dayKey(cur)]){ streak++; cur.setDate(cur.getDate()-1); }
+  const widx=(today.getDay()+6)%7, weekStart=new Date(today.getFullYear(),today.getMonth(),today.getDate()-widx);
+  const week=list.filter(r=>r.t>=weekStart).length;
+  const lt=list.length?list[list.length-1].t:null;
+  const daysAway=lt?Math.max(0,Math.round((today-new Date(lt.getFullYear(),lt.getMonth(),lt.getDate()))/864e5)):null;
+  const scored=list.filter(r=>num(r.rule_score));
+  let delta=null; const k=Math.min(5,Math.floor(scored.length/2));
+  if(scored.length>=4 && k>=2) delta=Math.round(avgOf(scored.slice(-k).map(r=>r.rule_score))-avgOf(scored.slice(-2*k,-k).map(r=>r.rule_score)));
+  /* คะแนนแยกส่วน: ความยาว 40 / คำสำคัญ 40 / โครงสร้าง 20 */
+  const pr=list.filter(r=>r.rule_detail&&r.rule_detail.parts&&num(r.rule_detail.parts.len)&&num(r.rule_detail.parts.kw)&&num(r.rule_detail.parts.st));
+  const pct=(key,max)=>{ const a=avgOf(pr.map(r=>r.rule_detail.parts[key]/max*100)); return a==null?null:Math.max(0,Math.min(100,Math.round(a))); };
+  const parts=pr.length>=3?[{k:"len",name:"ความยาวคำตอบ",v:pct("len",40)},{k:"kw",name:"การใช้คำสำคัญ",v:pct("kw",40)},{k:"st",name:"โครงสร้างและเหตุผล",v:pct("st",20)}]:[];
+  const weakPart=parts.length?parts.slice().sort((a,b)=>a.v-b.v)[0]:null;
+  const byCat={}, byLv={};
+  scored.forEach(r=>{ const q=qm.get(r.question_id); if(!q) return;
+    (byCat[q.category_id]=byCat[q.category_id]||[]).push(r.rule_score); (byLv[q.level]=byLv[q.level]||[]).push(r.rule_score); });
+  const catHasQ=new Set(S.cat.qs.map(q=>q.category_id));
+  const cats=S.cat.cats.filter(c=>catHasQ.has(c.id)).map(c=>({id:c.id,name:c.name_th,n:(byCat[c.id]||[]).length,avg:avgOf(byCat[c.id]||[])}));
+  const levels=LEVELS.map(l=>({name:l,n:(byLv[l]||[]).length,avg:avgOf(byLv[l]||[])}));
+  const both=list.filter(r=>num(r.self_score)&&num(r.rule_score));
+  const gap=both.length>=3?Math.round(avgOf(both.map(r=>r.self_score*20))-avgOf(both.map(r=>r.rule_score))):null;
+  const recent=list.slice(-10);
+  const shortN=recent.filter(r=>{ const q=qm.get(r.question_id); const len=r.rule_detail&&num(r.rule_detail.len)?r.rule_detail.len:r.answer_chars; return q&&num(len)&&len<(q.min_chars||150); }).length;
+  let worst=null; scored.slice(-30).forEach(r=>{ const q=qm.get(r.question_id); if(q&&r.rule_score<60&&(!worst||r.rule_score<worst.rule_score)) worst={...r,q}; });
+  const seen=new Set(list.map(r=>r.question_id).filter(x=>x!=null));
+  const seenN=[...seen].filter(id=>qm.has(id)).length;
+  return {n:list.length,list,counts,today,doneToday,streak,week,daysAway,scored,delta,parts,weakPart,cats,levels,gap,shortN,worst,seenN,
+    totalQ:S.cat.qs.length,minutes:Math.round(list.reduce((s,r)=>s+(num(r.elapsed_seconds)?r.elapsed_seconds:0),0)/60),avg:scored.length?Math.round(avgOf(scored.map(r=>r.rule_score))):null};
+}
+function dashRecs(d,go){
+  const R=[], add=(kind,icon,title,text,btn,fn)=>R.push({kind,icon,title,text,btn,fn});
+  if(d.n===0){ add("go","target","เริ่มซ้อมข้อแรกกันเลย","แนะนำให้เริ่มจากข้อระดับพื้นฐาน ใช้เวลาแค่ 3–5 นาที ซ้อมเสร็จแล้วภาพรวมจะเริ่มแสดงที่นี่","เริ่มข้อแรก",go({level:"พื้นฐาน"})); return R; }
+  if(!d.doneToday){
+    if(d.daysAway>=3) add("fix","flame","กลับมาซ้อมอีกสักข้อ","ห่างจากการซ้อมครั้งล่าสุด "+d.daysAway+" วันแล้ว ลองซ้อมสั้น ๆ แค่ 1 ข้อ ก็ช่วยให้กลับมามีจังหวะอีกครั้ง","ซ้อมเลย",go());
+    else if(d.streak>0) add("fix","flame","รักษาการซ้อมต่อเนื่อง "+d.streak+" วัน","วันนี้ยังไม่ได้ซ้อม ซ้อมอีก 1 ข้อ ก็นับต่อเนื่องได้แล้ว","ซ้อมเลย",go());
+    else add("fix","flame","เริ่มนับต่อเนื่องใหม่วันนี้","ลองซ้อมสัก 1 ข้อ เพื่อเริ่มนับวันต่อเนื่องใหม่","ซ้อมเลย",go());
+  }
+  const wp=d.weakPart;
+  if(wp && wp.v<80){
+    if(wp.k==="len") add("fix","trend",d.shortN>=3?"คำตอบสั้นกว่าที่แนะนำบ่อย":"ความยาวคำตอบยังไม่พอดี",
+      d.shortN>=3?"ลองเล่าเป็น 3 ช่วง คือ ที่มา → สิ่งที่ทำ → สิ่งที่ได้เรียนรู้ จะยาวพอโดยไม่ต้องฝืน":"ดูตัวเลขความยาวที่แนะนำใต้ช่องพิมพ์ แล้วพยายามให้คำตอบอยู่ในช่วงนั้น","ซ้อมข้อใหม่",go());
+    else if(wp.k==="kw") add("fix","trend","ใช้คำสำคัญให้ครบขึ้น","ก่อนตอบ ลองเปิดดูแนวทางตอบ จดคำสำคัญที่อยากใช้ 3–4 คำ แล้วค่อยเรียบเรียงเป็นประโยค","ซ้อมข้อใหม่",go());
+    else add("fix","trend","ใส่เหตุผลและตัวอย่างให้ชัดขึ้น","ลองใช้คำว่า “เพราะ...” และ “ตัวอย่างเช่น...” แล้วแบ่งคำตอบเป็นหลายช่วง","ซ้อมข้อใหม่",go());
+  }
+  const wc=d.cats.filter(c=>c.n>=2&&c.avg!=null).sort((a,b)=>a.avg-b.avg)[0];
+  if(wc && wc.avg<70) add("fix","target","หมวด “"+wc.name+"” ยังเป็นจุดอ่อน","คะแนนเฉลี่ย "+Math.round(wc.avg)+" จาก "+wc.n+" ครั้ง ต่ำกว่าหมวดอื่น ลองซ้อมหมวดนี้เพิ่ม","ซ้อมหมวดนี้",go({cat:wc.id}));
+  if(d.worst){ const t=d.worst.q.question_text; add("fix","book","ลองตอบข้อที่คะแนนต่ำสุดอีกครั้ง","ข้อ “"+(t.length>40?t.slice(0,40)+"…":t)+"” ได้ "+d.worst.rule_score+" คะแนน ลองเรียบเรียงใหม่ ดูว่าดีขึ้นแค่ไหน","ตอบข้อนี้ใหม่",()=>startPractice(d.worst.q)); }
+  const lv=d.levels;
+  if(lv[0].n>=3&&lv[0].avg>=70&&lv[1].n<3) add("go","trend","พร้อมขึ้นระดับปานกลางแล้ว","ระดับพื้นฐานเฉลี่ย "+Math.round(lv[0].avg)+" คะแนน ลองท้าทายตัวเองด้วยข้อระดับปานกลาง","ลองข้อปานกลาง",go({level:"ปานกลาง"}));
+  else if(lv[1].n>=3&&lv[1].avg>=70&&lv[2].n<3) add("go","trend","พร้อมลองข้อท้าทายแล้ว","ระดับปานกลางเฉลี่ย "+Math.round(lv[1].avg)+" คะแนน ลองข้อระดับท้าทายดู","ลองข้อท้าทาย",go({level:"ท้าทาย"}));
+  if(d.gap!=null && d.gap>=20) add("","bulb","คุณประเมินตัวเองสูงกว่าระบบ","ระบบให้คะแนนต่ำกว่าที่คุณประเมินราว "+d.gap+" คะแนน ลองกด “คัดลอก prompt” หลังตรวจคำตอบ แล้วนำไปถาม AI ที่คุณใช้อยู่ เพื่อดูอีกมุมมอง");
+  else if(d.gap!=null && d.gap<=-20) add("","bulb","คุณประเมินตัวเองต่ำกว่าระบบ","ระบบให้คะแนนสูงกว่าที่คุณประเมินราว "+(-d.gap)+" คะแนน คุณอาจเข้มงวดกับตัวเองเกินไป ลองมั่นใจในคำตอบมากขึ้นอีกนิด");
+  const un=d.cats.filter(c=>c.n===0);
+  if(un.length) add("","book","ยังไม่เคยลองหมวด “"+un[0].name+"”"+(un.length>1?" และอีก "+(un.length-1)+" หมวด":""),"การลองหลายหมวดช่วยให้พร้อมกับคำถามที่กรรมการอาจถาม","ลองหมวดนี้",go({cat:un[0].id}));
+  if(d.week>=GOAL) add("go","target","ครบเป้าหมายสัปดาห์นี้แล้ว","ซ้อมแล้ว "+d.week+" ครั้งในสัปดาห์นี้ ถ้ายังมีแรง ลองข้อที่ยังไม่เคยทำเพิ่มได้","ซ้อมเพิ่ม",go());
+  else if(R.length<4) add("","target","เป้าหมายสัปดาห์นี้","ซ้อมแล้ว "+d.week+" จาก "+GOAL+" ครั้ง เหลืออีก "+(GOAL-d.week)+" ครั้ง","ซ้อมเลย",go());
+  return R.slice(0,4);
+}
+function renderDash(rows){
+  const d=dashCalc(rows), n=d.n;
+  const go=o=>()=>{ const q=pickQ(o); if(q) startPractice(q); };
+  const out=[];
+  /* ส่วนหัว: ซ้อมต่อเนื่อง + เป้าหมายสัปดาห์ */
+  const cta=h("div",{class:"cta"},h("button",{class:"go",onclick:go()},icon("dice")," ซ้อมข้อต่อไป"),
+    h("button",{class:"ghost",onclick:()=>{S.tab="practice";viewHome();}},"เลือกข้อเอง"));
+  if(n===0){
+    out.push(h("div",{class:"dash-hero solo"},h("div",{},h("div",{class:"kicker"},"ยินดีต้อนรับ"),h("div",{class:"big small"},"ยังไม่มีบันทึกการซ้อม"),
+      h("div",{class:"sub"},"ซ้อมข้อแรกเสร็จเมื่อไร ภาพรวมความก้าวหน้าของคุณจะแสดงที่นี่")),cta));
+  }else{
+    const C=2*Math.PI*44, frac=Math.min(1,d.week/GOAL);
+    const ring=h("div",{class:"ring",role:"img","aria-label":"เป้าหมายสัปดาห์นี้ ซ้อมแล้ว "+d.week+" จาก "+GOAL+" ครั้ง"});
+    ring.innerHTML='<svg viewBox="0 0 104 104" aria-hidden="true"><circle cx="52" cy="52" r="44" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="10"/>'+
+      (d.week>0?'<circle cx="52" cy="52" r="44" fill="none" stroke="var(--acc)" stroke-width="10" stroke-linecap="round" stroke-dasharray="'+(C*frac).toFixed(1)+' '+C.toFixed(1)+'"/>':"")+'</svg>';
+    ring.append(h("div",{class:"num","aria-hidden":"true"},d.week+"/"+GOAL,h("small",{},"ครั้งสัปดาห์นี้")));
+    out.push(h("div",{class:"dash-hero"},
+      h("div",{},h("div",{class:"kicker"},"ซ้อมต่อเนื่อง"),h("div",{class:"big"},icon("flame"),String(d.streak),h("small",{},"วัน")),
+        h("div",{class:"sub"},d.doneToday?"วันนี้ซ้อมแล้ว":d.streak>0?"วันนี้ยังไม่ได้ซ้อม":"เริ่มนับใหม่ได้ตั้งแต่วันนี้")),
+      ring,cta));
+    /* ตัวเลขสรุป */
+    const tile=(v,l,extra)=>h("div",{class:"stat"},h("b",{},v),h("span",{class:"mute"},l),extra||null);
+    const dl=d.delta==null?null:h("span",{class:"delta "+(d.delta>=0?"up":"dn")},(d.delta>=0?"▲ +":"▼ ")+d.delta+" จากช่วงก่อน");
+    out.push(h("div",{class:"card dcard"},h("div",{class:"stats"},
+      tile(String(n),"ครั้งที่ซ้อม"),tile(String(d.minutes),"นาทีรวม"),
+      tile(d.seenN+"/"+d.totalQ,"ข้อที่เคยซ้อม"),tile(d.avg==null?"–":String(d.avg),"คะแนนระบบเฉลี่ย",dl))));
+  }
+  /* คำแนะนำ */
+  const recs=dashRecs(d,go);
+  out.push(h("div",{class:"card dcard"},h("h2",{},icon("bulb")," สิ่งที่ควรทำต่อ"),
+    recs.map(r=>h("div",{class:"rec "+r.kind},h("div",{class:"ico2"},icon(r.icon)),
+      h("div",{},h("b",{},r.title),h("div",{class:"mute"},r.text),
+        r.btn?h("div",{class:"act"},h("button",{class:"sm",onclick:r.fn},r.btn+" ",icon("arrow"))):null)))));
+  if(n===0){ out.push(h("p",{class:"mute",style:"text-align:center"},"คะแนนและคำแนะนำมาจากกติกาตรวจเองของระบบ เป็นเพียงแนวทางเบื้องต้น")); return out; }
+  /* กราฟแนวโน้ม */
+  const sc=d.scored.slice(-20);
+  const trend=h("div",{class:"card dcard"},h("h2",{},icon("trend")," แนวโน้มคะแนน"));
+  if(sc.length<2) trend.append(h("p",{class:"mute"},"ซ้อมอีกสักครั้งสองครั้ง เส้นความก้าวหน้าจะเริ่มปรากฏ"));
+  else{
+    const W=320,H=140,pl=26,pr=8,pt=8,pb=20, X=i=>pl+i*(W-pl-pr)/(sc.length-1), Y=v=>pt+(1-Math.max(0,Math.min(100,v))/100)*(H-pt-pb);
+    const line=sc.map((r,i)=>X(i).toFixed(1)+","+Y(r.rule_score).toFixed(1)).join(" ");
+    const sp=sc.map((r,i)=>num(r.self_score)?{x:X(i),y:Y(r.self_score*20)}:null).filter(Boolean);
+    const dt=r=>r.t.toLocaleDateString("th-TH",{day:"numeric",month:"short"});
+    let s='<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="กราฟคะแนนระบบ '+sc.length+' ครั้งล่าสุด จาก '+sc[0].rule_score+' เป็น '+sc[sc.length-1].rule_score+'">';
+    [0,50,100].forEach(v=>{ s+='<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" style="stroke:var(--line)" stroke-width="1"/><text x="'+(pl-5)+'" y="'+(Y(v)+3.5)+'" text-anchor="end">'+v+'</text>'; });
+    if(sp.length>1) s+='<polyline fill="none" style="stroke:var(--warn)" stroke-width="1.6" stroke-dasharray="4 3" points="'+sp.map(p=>p.x.toFixed(1)+","+p.y.toFixed(1)).join(" ")+'"/>';
+    sp.forEach(p=>{ s+='<rect x="'+(p.x-3).toFixed(1)+'" y="'+(p.y-3).toFixed(1)+'" width="6" height="6" transform="rotate(45 '+p.x.toFixed(1)+' '+p.y.toFixed(1)+')" fill="var(--card)" style="stroke:var(--warn)" stroke-width="1.6"/>'; });
+    s+='<polyline fill="none" style="stroke:var(--brand)" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" points="'+line+'"/>';
+    sc.forEach((r,i)=>{ s+='<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(r.rule_score).toFixed(1)+'" r="3.2" style="fill:var(--brand);stroke:var(--card)" stroke-width="1.5"/>'; });
+    s+='<text x="'+pl+'" y="'+(H-5)+'" text-anchor="start">'+dt(sc[0])+'</text><text x="'+(W-pr)+'" y="'+(H-5)+'" text-anchor="end">'+dt(sc[sc.length-1])+'</text></svg>';
+    const box=h("div",{}); box.innerHTML=s; trend.append(box);
+    trend.append(h("div",{class:"legend"},h("span",{},h("i",{style:"background:var(--brand)"}),"คะแนนระบบ"),
+      h("span",{},h("i",{style:"background:var(--card);border:2px solid var(--warn);border-radius:2px;transform:rotate(45deg)"}),"ประเมินตนเอง (×20)")));
+  }
+  out.push(trend);
+  /* คะแนนแยกส่วน */
+  if(d.parts.length){
+    const low=d.weakPart&&d.weakPart.v<80?d.weakPart.k:"";
+    out.push(h("div",{class:"card dcard"},h("h2",{},icon("clipboard")," คะแนนแยกตามส่วน"),
+      d.parts.map(p=>h("div",{style:"margin:10px 0"},h("div",{class:"row",style:"justify-content:space-between"},h("span",{},p.name,p.k===low?h("span",{class:"tag"},"ควรเสริม"):null),h("span",{class:"mute"},p.v+"%")),
+        h("div",{class:"bar",role:"img","aria-label":p.name+" "+p.v+" เปอร์เซ็นต์"},h("i",{class:p.k===low?"weak":"",style:"width:"+p.v+"%"})))),
+      h("p",{class:"mute",style:"margin:6px 0 0;font-size:.88rem"},"เฉลี่ยจากทุกครั้งที่ซ้อม (เต็ม 100% ในแต่ละส่วน)")));
+  }
+  /* รายหมวด */
+  if(d.cats.length){
+    out.push(h("div",{class:"card dcard"},h("h2",{},icon("book")," คะแนนเฉลี่ยรายหมวด"),
+      d.cats.map(c=>{ const v=c.avg==null?0:Math.round(c.avg);
+        return h("div",{style:"margin:10px 0"},h("div",{class:"row",style:"justify-content:space-between"},
+          h("span",{},c.name),c.n?h("span",{class:"mute"},v+" · "+c.n+" ครั้ง"):h("span",{class:"tag"},"ยังไม่เคยซ้อม")),
+          h("div",{class:"bar",role:"img","aria-label":c.name+(c.n?" เฉลี่ย "+v+" คะแนน":" ยังไม่เคยซ้อม")},h("i",{class:c.n&&v<60?"weak":"",style:"width:"+v+"%"})));})));
+  }
+  /* ระดับความยาก */
+  out.push(h("div",{class:"card dcard"},h("h2",{},icon("target")," ระดับความยาก"),
+    d.levels.map(l=>{ const v=l.avg==null?0:Math.round(l.avg);
+      return h("div",{style:"margin:10px 0"},h("div",{class:"row",style:"justify-content:space-between"},h("span",{},l.name),
+        l.n?h("span",{class:"mute"},v+" · "+l.n+" ครั้ง"):h("span",{class:"mute"},"ยังไม่เคยซ้อม")),
+        h("div",{class:"bar",role:"img","aria-label":l.name+(l.n?" เฉลี่ย "+v+" คะแนน":" ยังไม่เคยซ้อม")},h("i",{style:"width:"+v+"%"})));})));
+  /* ปฏิทินการซ้อม 14 สัปดาห์ */
+  const widx=(d.today.getDay()+6)%7, first=new Date(d.today.getFullYear(),d.today.getMonth(),d.today.getDate()-widx-13*7), tk=dayKey(d.today);
+  const heat=h("div",{class:"heat","aria-hidden":"true"});
+  let active=0;
+  for(let i=0;i<98;i++){
+    const day=new Date(first.getFullYear(),first.getMonth(),first.getDate()+i), k=dayKey(day), c=d.counts[k]||0;
+    if(c) active++;
+    heat.append(h("i",{class:(day>d.today?"fut":c>=3?"l3":c===2?"l2":c===1?"l1":"")+(k===tk?" today":""),
+      title:day.toLocaleDateString("th-TH",{day:"numeric",month:"short"})+(c?" · ซ้อม "+c+" ครั้ง":"")}));
+  }
+  out.push(h("div",{class:"card dcard"},h("h2",{},"ปฏิทินการซ้อม 14 สัปดาห์"),
+    h("div",{role:"img","aria-label":"ปฏิทินการซ้อม 14 สัปดาห์ล่าสุด ซ้อมไป "+active+" วัน"},heat),
+    h("div",{class:"heatkey","aria-hidden":"true"},"น้อย",h("i",{}),h("i",{class:"l1"}),h("i",{class:"l2"}),h("i",{class:"l3"}),"มาก"),
+    h("p",{class:"mute",style:"margin:6px 0 0;font-size:.88rem"},"ซ้อมไปแล้ว "+active+" วันในช่วงนี้ (แถวบนสุดคือวันจันทร์)")));
+  out.push(h("p",{class:"mute",style:"text-align:center;font-size:.88rem"},"คะแนนและคำแนะนำมาจากกติกาตรวจเองของระบบ เป็นเพียงแนวทางเบื้องต้น ไม่ใช่ผลสอบจริง ควรใช้ร่วมกับการประเมินตนเองและคำแนะนำจากครู"));
+  return out;
 }
 
 /* ===== ตรวจกติกา (คำนวณในเครื่อง ไม่ส่งไป AI) ===== */
@@ -635,7 +891,7 @@ function resultCard(){
     const {error}=await sb.from("practice_sessions").insert(row);
     p.busy=false;
     if(error && error.code!=="23505"){ saveBtn.disabled=false; saveOut.append(msg("err",friendly(error,"บันทึกไม่สำเร็จ คำตอบของคุณยังอยู่ในหน้านี้ กดบันทึกอีกครั้ง"))); return; }
-    p.saved=true; clearTimeout(p._dt); clearDraft(q.id); track("session_save"); clearInterval(p.timer); S.hist={rows:[],done:false,loading:false,open:{}}; viewPractice();
+    p.saved=true; S.dash=null; clearTimeout(p._dt); clearDraft(q.id); track("session_save"); clearInterval(p.timer); S.hist={rows:[],done:false,loading:false,open:{}}; viewPractice();
     setTimeout(()=>document.getElementById("result")?.scrollIntoView(),30);
   }},p.saved?"บันทึกแล้ว ✓":"บันทึกการซ้อม");
   return h("div",{class:"card",id:"result"},
@@ -706,7 +962,7 @@ async function delSession(id){
   if(!confirm("ลบการซ้อมนี้ถาวรใช่ไหม? ลบแล้วกู้คืนไม่ได้")) return;
   const {error}=await sb.from("practice_sessions").delete().eq("id",id);
   if(error){ S.hist.err=friendly(error,"ลบไม่สำเร็จ ลองใหม่"); return viewHome(); }
-  S.hist.rows=S.hist.rows.filter(r=>r.id!==id); delete S.hist.open[id]; viewHome();
+  S.dash=null; S.hist.rows=S.hist.rows.filter(r=>r.id!==id); delete S.hist.open[id]; viewHome();
 }
 
 /* ===== สถิติ (เห็นได้เฉพาะผู้ดูแล: ตัวเลขรวม ไม่มีข้อมูลรายบุคคล) ===== */
