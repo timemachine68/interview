@@ -12,7 +12,7 @@
 <meta property="og:locale" content="th_TH">
 <meta property="og:site_name" content="ซ้อมสัมภาษณ์">
 <meta property="og:title" content="ซ้อมสัมภาษณ์ ซ้อมให้มั่นใจก่อนวันจริง">
-<meta property="og:description" content="คลังคำถามกว่า 280 ข้อ พิมพ์ตอบ ตรวจเบื้องต้นทันที ฝึกฟรี">
+<meta property="og:description" content="คลังคำถามกว่า 360 ข้อ พิมพ์ตอบ ตรวจเบื้องต้นทันที ฝึกฟรี">
 <meta property="og:url" content="https://timemachine68.github.io/interview/">
 <meta property="og:image" content="https://timemachine68.github.io/interview/og.png">
 <meta property="og:image:width" content="1200">
@@ -89,6 +89,19 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .bar>i{display:block;height:100%;background:var(--brand);border-radius:6px}
 .score{font-size:2.8rem;font-weight:700;line-height:1.1;color:var(--brand)}
 .timer{font-variant-numeric:tabular-nums;font-weight:700}
+.timebox{display:inline-flex;align-items:center;gap:8px;font-size:1.5rem;font-weight:800}
+.timer.warn{color:var(--warn)}
+.timer.danger{color:var(--bad);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.5}}
+@media (prefers-reduced-motion:reduce){.timer.danger{animation:none}}
+/* เช็คลิสต์แบบแตะเพื่อติ๊ก */
+.check-grid{display:grid;grid-template-columns:1fr;gap:8px;margin:8px 0 0}
+@media (min-width:560px){.check-grid{grid-template-columns:repeat(2,1fr)}}
+.citem{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:10px 12px;min-height:48px}
+.citem .box{width:24px;height:24px;flex:0 0 24px;border:2px solid var(--brand);border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:800;line-height:1;color:var(--brand-ink)}
+.citem.done .box{background:var(--brand)}
+.citem.done .box::after{content:"✓"}
+.citem.done .ctext{text-decoration:line-through;color:var(--mute)}
 .rate{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
 .rate button.on{background:var(--acc);color:var(--acc-ink);border-color:var(--acc);font-weight:700}
 .badge{display:inline-block;background:var(--acc);color:var(--acc-ink);font-weight:600;font-size:.9rem;border-radius:999px;padding:4px 14px}
@@ -248,6 +261,18 @@ function h(tag, props, ...kids){
 }
 function mount(...nodes){ app.replaceChildren(...nodes.flat(Infinity).filter(Boolean)); window.scrollTo(0,0); }
 function msg(kind,text){ return h("div",{class:"msg "+kind,role:kind==="err"?"alert":"status"},text); }
+/* เช็คลิสต์แตะเพื่อติ๊ก: items=[ข้อความ], state=[true/false], onChange(i,v) */
+function checklist(items,state,onChange,label){
+  return h("div",{class:"check-grid",role:"group","aria-label":label},items.map((t,i)=>{
+    const b=h("button",{type:"button",class:"citem"+(state[i]?" done":""),"aria-pressed":String(!!state[i]),
+      onclick:()=>{ state[i]=!state[i]; b.classList.toggle("done",state[i]); b.setAttribute("aria-pressed",String(state[i])); onChange&&onChange(i,state[i]); }},
+      h("span",{class:"box","aria-hidden":"true"}),h("span",{class:"ctext"},t));
+    return b;
+  }));
+}
+const ANS_CHECK=["ตอบตรงคำถามแล้ว","มีเหตุผล เช่น “เพราะ...”","มีตัวอย่างจากประสบการณ์จริง","สรุปปิดท้ายสั้น ๆ","อ่านทวนแล้ว ไม่มีคำผิด"];
+const DAY_CHECK=["ทบทวนข้อมูลสาขา/คณะที่สมัคร","เตรียมแนะนำตัว 1 นาที","เตรียมเหตุผลที่เลือกสาขานี้","เตรียมคำถามที่อยากถามกรรมการ","เตรียมเอกสารและบัตรประจำตัว","แต่งกายสุภาพ ถึงก่อนเวลา","นอนพอและกินอาหารเช้า"];
+function loadDayCheck(){ try{ const a=JSON.parse(localStorage.getItem("interview-daycheck")||"[]"); return DAY_CHECK.map((_,i)=>!!a[i]); }catch(e){ return DAY_CHECK.map(()=>false); } }
 function fmtTime(s){ s=Math.max(0,Math.round(s)); return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0"); }
 function fmtDate(iso){ try{return new Date(iso).toLocaleString("th-TH",{dateStyle:"medium",timeStyle:"short"});}catch(e){return "";} }
 function uuid(){ return (crypto.randomUUID?crypto.randomUUID():"10000000-1000-4000-8000-100000000000".replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15>>c/4).toString(16))); }
@@ -442,7 +467,7 @@ function viewAuth(mode="login", note=null){
       h("div",{class:"brandname",style:"font-weight:700;font-size:1.3rem;color:var(--brand)"},"ซ้อมสัมภาษณ์"),
       h("span",{class:"badge"},"ฝึกฟรี · พิมพ์ตอบได้เลย"),
       h("h1",{},"ซ้อมสัมภาษณ์ ",h("em",{},"ให้มั่นใจ")," ก่อนวันจริง"),
-      h("p",{},"คลังคำถามกว่า 280 ข้อ ตอบด้วยการพิมพ์ ระบบตรวจเบื้องต้นให้ทันที และเก็บประวัติให้เห็นพัฒนาการของคุณ"),
+      h("p",{},"คลังคำถามกว่า 360 ข้อ ตอบด้วยการพิมพ์ ระบบตรวจเบื้องต้นให้ทันที และเก็บประวัติให้เห็นพัฒนาการของคุณ"),
       h("div",{style:"background:var(--chip);border-radius:26px;padding:8px 10px;margin-bottom:14px"},bubble())),
     h("div",{class:"card"},
     h("div",{class:"tabs",role:"tablist","aria-label":"เข้าสู่ระบบหรือสมัครใหม่"},
@@ -573,6 +598,9 @@ function tabPractice(){
     oninput:e=>{f.q=e.target.value;f.show=PAGE;clearTimeout(search._t);search._t=setTimeout(()=>{viewHome();const s=document.querySelector("input[type=search]");if(s){s.focus();s.setSelectionRange(s.value.length,s.value.length);}},350);}});
   return [
     h("div",{class:"card"},h("div",{class:"stats",id:"stats"},[1,2,3,4].map(()=>h("div",{class:"stat"},h("b",{},"–"),h("span",{class:"mute"},"")))),),
+    (()=>{ const st=loadDayCheck(); return h("details",{class:"card"},h("summary",{style:"cursor:pointer;font-weight:600"},"เช็คลิสต์ก่อนวันสัมภาษณ์"),
+      h("div",{class:"mute",style:"margin-top:6px"},"แตะเพื่อติ๊ก ระบบจำไว้ในเครื่องนี้เท่านั้น"),
+      checklist(DAY_CHECK,st,()=>{ try{localStorage.setItem("interview-daycheck",JSON.stringify(st));}catch(e){} },"เช็คลิสต์ก่อนวันสัมภาษณ์")); })(),
     h("div",{class:"card"},h("h2",{},"เลือกคำถามที่จะซ้อม"),
       h("div",{class:"row"},
         c.types.length>1&&sel("type",c.types.map(t=>[String(t.id),t.name_th]),"ประเภทสัมภาษณ์"),
@@ -914,7 +942,7 @@ async function copyText(text){
 /* ===== ฝึกตอบ ===== */
 function startPractice(q){
   const d=loadDraft(q.id);
-  S.p={q,start:Date.now(),text:d,restored:!!d,res:null,self:null,saved:false,reqId:uuid(),tip:false,timer:null,busy:false};
+  S.p={q,start:Date.now(),text:d,restored:!!d,res:null,self:null,saved:false,reqId:uuid(),tip:false,timer:null,busy:false,chk:ANS_CHECK.map(()=>false),stopAt:null};
   track("practice_start");
   viewPractice();
 }
@@ -939,9 +967,17 @@ function nextRandom(skipConfirm){
 
 function viewPractice(){
   const p=S.p, q=p.q, c=S.cat;
-  const timerEl=h("span",{class:"timer"},fmtTime((Date.now()-p.start)/1000));
-  clearInterval(p.timer);
-  if(!p.saved) p.timer=setInterval(()=>{ timerEl.textContent=fmtTime((Date.now()-p.start)/1000); },1000);
+  const total=Math.max(15,q.suggested_seconds||180);
+  const timerEl=h("span",{class:"timer",role:"timer","aria-label":"เวลาที่เหลือ"});
+  const overEl=h("div",{class:"mute",role:"status"});
+  const tick=()=>{
+    const el=((p.stopAt||Date.now())-p.start)/1000, left=Math.round(total-el);
+    timerEl.textContent=left>=0?fmtTime(left):"+"+fmtTime(-left);
+    timerEl.className="timer"+(left<=0?" danger":left<=Math.max(10,total*0.1)?" danger":left<=Math.max(30,total*0.3)?" warn":"");
+    overEl.textContent=p.saved?"":left<0?"เลยเวลาแนะนำแล้ว ค่อย ๆ สรุปให้จบได้เลย":"";
+  };
+  clearInterval(p.timer); tick();
+  if(!p.saved) p.timer=setInterval(tick,1000);
   const counter=h("div",{class:"mute",role:"status"});
   const ta=h("textarea",{maxlength:"10000",placeholder:q.language==="en"?"Type your answer here...":"พิมพ์คำตอบของคุณที่นี่ เหมือนกำลังพูดตอบกรรมการ",disabled:p.saved,"aria-label":"คำตอบ"});
   ta.value=p.text;
@@ -956,13 +992,16 @@ function viewPractice(){
     h("div",{class:"row",style:"justify-content:space-between"},
       h("div",{class:"row"},h("button",{onclick:()=>leavePractice(false)},"← กลับ"),
         h("button",{onclick:()=>nextRandom(false)},icon("dice")," ข้อใหม่")),
-      h("span",{},icon("timer")," ",timerEl,q.suggested_seconds?h("span",{class:"mute"}," (แนะนำ ~"+Math.round(q.suggested_seconds/60*10)/10+" นาที)"):null)),
+      h("div",{style:"text-align:right"},h("span",{class:"timebox"},icon("timer"),timerEl),
+        h("div",{class:"mute"},"เวลาที่เหลือ (แนะนำ ~"+Math.round(total/60*10)/10+" นาที)"),overEl)),
     h("div",{class:"card",style:"margin-top:12px"},
       h("div",{},h("span",{class:"chip"},c.byCat[q.category_id]||""),h("span",{class:"chip"},q.level),tagChips(q)),
       h("p",{class:"q"},q.question_text),
       q.tip_th&&h("button",{class:"link",onclick:()=>{p.tip=!p.tip;viewPractice();}},p.tip?"ซ่อนแนวทางตอบ":"ดูแนวทางตอบ (ลองคิดเองก่อนจะดีกว่า)"),
       p.tip&&q.tip_th&&h("div",{class:"msg warn"},q.tip_th)),
     h("div",{class:"card"},p.restored&&p.text?msg("warn","พบร่างคำตอบที่คุณพิมพ์ค้างไว้ในเครื่องนี้ และใส่ให้แล้ว"):null,ta,counter,
+      h("h2",{style:"margin-top:14px"},"เช็คคำตอบก่อนกดตรวจ"),h("div",{class:"mute"},"แตะข้อที่ทำแล้วเพื่อติ๊ก (เช็คเองเท่านั้น ไม่นับเป็นคะแนน)"),
+      checklist(ANS_CHECK,p.chk,null,"เช็คลิสต์คำตอบ"),
       h("div",{class:"row",style:"margin-top:10px"},checkBtn)),
     p.res?resultCard():null);
 }
@@ -992,7 +1031,7 @@ function resultCard(){
     const {error}=await sb.from("practice_sessions").insert(row);
     p.busy=false;
     if(error && error.code!=="23505"){ saveBtn.disabled=false; saveOut.append(msg("err",friendly(error,"บันทึกไม่สำเร็จ คำตอบของคุณยังอยู่ในหน้านี้ กดบันทึกอีกครั้ง"))); return; }
-    p.saved=true; S.dash=null; clearTimeout(p._dt); clearDraft(q.id); track("session_save"); clearInterval(p.timer); S.hist={rows:[],done:false,loading:false,open:{}}; viewPractice();
+    p.saved=true; p.stopAt=Date.now(); S.dash=null; clearTimeout(p._dt); clearDraft(q.id); track("session_save"); clearInterval(p.timer); S.hist={rows:[],done:false,loading:false,open:{}}; viewPractice();
     setTimeout(()=>document.getElementById("result")?.scrollIntoView(),30);
   }},p.saved?"บันทึกแล้ว ✓":"บันทึกการซ้อม");
   return h("div",{class:"card",id:"result"},
