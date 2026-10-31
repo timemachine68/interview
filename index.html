@@ -98,6 +98,12 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .check-grid{display:grid;grid-template-columns:1fr;gap:8px;margin:8px 0 0}
 @media (min-width:560px){.check-grid{grid-template-columns:repeat(2,1fr)}}
 .citem{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:10px 12px;min-height:48px}
+/* นับถอยหลังวันสัมภาษณ์ */
+.exam .daysbig{font-family:"Prompt","Noto Sans Thai",sans-serif;font-size:2.4rem;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.exam .daysbig small{font-size:1rem;font-weight:500;color:var(--mute);margin-left:6px}
+.exam .daysbig.warn{color:var(--warn)}
+.exam .daysbig.danger{color:var(--bad)}
+.exam input{margin-bottom:6px}
 .citem .box{width:24px;height:24px;flex:0 0 24px;border:2px solid var(--brand);border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:800;line-height:1;color:var(--brand-ink)}
 .citem.done .box{background:var(--brand)}
 .citem.done .box::after{content:"✓"}
@@ -719,10 +725,44 @@ function dashRecs(d,go){
   else if(R.length<4) add("","target","เป้าหมายสัปดาห์นี้","ซ้อมแล้ว "+d.week+" จาก "+GOAL+" ครั้ง เหลืออีก "+(GOAL-d.week)+" ครั้ง","ซ้อมเลย",go());
   return R.slice(0,4);
 }
+/* การ์ดนับถอยหลังวันสัมภาษณ์ (เก็บในเครื่องผู้ใช้เท่านั้น ไม่ส่งขึ้นเซิร์ฟเวอร์) */
+function examLoad(){ try{ const o=JSON.parse(localStorage.getItem("interview-exam")||"null"); if(o&&/^\d{4}-\d{2}-\d{2}$/.test(o.date)) return {date:o.date,label:String(o.label||"").slice(0,40)}; }catch(e){} return null; }
+function examSave(o){ try{ if(o) localStorage.setItem("interview-exam",JSON.stringify(o)); else localStorage.removeItem("interview-exam"); }catch(e){} }
+function examDays(ds){ const [y,m,d]=ds.split("-").map(Number); const t=new Date(y,m-1,d), n=new Date(); const t0=new Date(n.getFullYear(),n.getMonth(),n.getDate()); return Math.round((t-t0)/86400000); }
+function examCard(){
+  const box=h("div",{class:"card exam dcard"});
+  let editing=false;
+  const draw=()=>{
+    const ex=examLoad(); box.replaceChildren();
+    if(ex&&!editing){
+      const left=examDays(ex.date);
+      const dt=new Date(ex.date+"T00:00:00").toLocaleDateString("th-TH",{day:"numeric",month:"long",year:"numeric"});
+      const cls=left<=3?" danger":left<=7?" warn":"";
+      box.append(h("div",{class:"mute"},"นับถอยหลังวันสัมภาษณ์"+(ex.label?" · "+ex.label:"")),
+        left>0?h("div",{class:"daysbig"+cls,role:"status"},"อีก "+left,h("small",{},"วัน"))
+          :left===0?h("div",{class:"daysbig danger",role:"status"},"วันนี้วันสัมภาษณ์",h("small",{},"ขอให้โชคดี"))
+          :h("div",{class:"daysbig",role:"status",style:"font-size:1.4rem"},"ผ่านไปแล้ว "+(-left)+" วัน"),
+        h("div",{class:"mute"},dt+(left<0?" · ตั้งวันใหม่ได้ถ้ามีรอบถัดไป":"")),
+        h("div",{class:"row",style:"margin-top:8px"},h("button",{class:"sm",onclick:()=>{editing=true;draw();}},"เปลี่ยนวัน"),
+          h("button",{class:"sm",onclick:()=>{examSave(null);draw();}},"ลบ")));
+    }else{
+      const di=h("input",{type:"date",id:"exd","aria-label":"วันสัมภาษณ์",value:ex?ex.date:""});
+      const li=h("input",{type:"text",maxlength:"40",placeholder:"ชื่อรอบ เช่น สัมภาษณ์คณะแพทย์ (ไม่ใส่ก็ได้)","aria-label":"ชื่อรอบสัมภาษณ์",value:ex?ex.label:""});
+      const er=h("div",{role:"status"});
+      box.append(h("h2",{},"นับถอยหลังวันสัมภาษณ์"),h("div",{class:"mute"},"ตั้งวันสัมภาษณ์จริง ระบบจะนับให้ว่าเหลืออีกกี่วัน (จำไว้ในเครื่องนี้เท่านั้น)"),
+        h("label",{for:"exd"},"วันสัมภาษณ์"),di,li,er,
+        h("div",{class:"row",style:"margin-top:6px"},h("button",{class:"primary sm",onclick:()=>{
+          if(!di.value){ er.replaceChildren(msg("err","เลือกวันสัมภาษณ์ก่อนนะ แตะที่ช่องวันที่แล้วเลือกจากปฏิทิน")); return; }
+          examSave({date:di.value,label:li.value.trim().slice(0,40)}); editing=false; draw(); }},"ตั้งวัน"),
+          ex?h("button",{class:"sm",onclick:()=>{editing=false;draw();}},"ยกเลิก"):null));
+    }
+  };
+  draw(); return box;
+}
 function renderDash(rows){
   const d=dashCalc(rows), n=d.n;
   const go=o=>()=>{ const q=pickQ(o); if(q) startPractice(q); };
-  const out=[];
+  const out=[examCard()];
   /* ส่วนหัว: ซ้อมต่อเนื่อง + เป้าหมายสัปดาห์ */
   const cta=h("div",{class:"cta"},h("button",{class:"go",onclick:go()},icon("dice")," ซ้อมข้อต่อไป"),
     h("button",{class:"ghost",onclick:()=>{S.tab="practice";viewHome();}},"เลือกข้อเอง"));
